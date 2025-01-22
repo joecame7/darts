@@ -30,7 +30,7 @@ thead {
 th, td {
     border: 1px solid #ddd;
     text-align: center;
-    padding: 0;
+    padding: 4px;
     font-size: 1.2em;
 }
 
@@ -56,11 +56,10 @@ thead tr:nth-child(2) th {
 /* Table Data (td) Styling */
 td {
     border: 1px solid #ddd;
-    padding: 0;
     text-align: center;
     font-size: 1.2em;
-    width: 80px; /* Fixed width */
-    height: 80px; /* Fixed height */
+    width: 50px; /* Fixed width */
+    height: 50px; /* Fixed height */
     box-sizing: border-box;
 }
   
