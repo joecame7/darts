@@ -7,6 +7,7 @@ body {
 
 table {
     margin: 20px auto;
+    margin-bottom: 20px auto;
     border-collapse: collapse;
     width: 90%;
     max-width: 500px;
@@ -96,6 +97,7 @@ th#undo-btn-container {
     
     table {
         margin: 5px auto;
+        margin-bottom: 5px auto;
         border-collapse: collapse;
         width: 95%;
         height: 90vh;
