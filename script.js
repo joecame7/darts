@@ -121,5 +121,16 @@ function updateScores(segment) {
             parseInt(p2ScoreElem.innerText) + extraHits * (segment === 'Bull' ? 25 : parseInt(segment));
         hits.p2[segment] = 3; // Cap hits at 3 for Player 2
     }
-  }
-  
+}
+
+// Disable double-tap zoom on iOS
+document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// Disable pinch-to-zoom
+document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+});
