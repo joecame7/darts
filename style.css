@@ -3,6 +3,7 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
+    user-select: none;
 }
 
 table {
@@ -54,6 +55,7 @@ td img {
     margin: auto;
     width: auto;
     height: auto;
+    pointer-events: none; /* Disable dragging of tally images */
 }
 
 /* Disable hover and pointer for the middle column */
@@ -77,3 +79,4 @@ th#undo-btn-container {
     width: 30px;                /* Set the image size */
     height: auto;               /* Maintain aspect ratio */
 }
+
