@@ -1,25 +1,16 @@
-html, body {
-    height: 100%;            /* Ensure the HTML and body take up full height */
-    margin: 0;
-    padding: 0;
-}
-
 body {
     font-family: Arial, sans-serif;
     text-align: center;
     margin: 0;
     padding: 0;
-    user-select: none;
 }
 
 table {
     margin: 20px auto;
     border-collapse: collapse;
-    width: 95%;
-    height: 90vh;
-    max-width: 95%;
+    width: 90%;
+    max-width: 500px;
     border: 2px solid #ddd; /* Outer border for the entire table */
-    border-collapse: collapse;
 }
 
 /* Thicker border between the header and data */
@@ -30,8 +21,6 @@ thead {
 th, td {
     border: 1px solid #ddd;
     text-align: center;
-    padding: 4px;
-    font-size: 1.2em;
 }
 
 th {
@@ -39,13 +28,6 @@ th {
     border: none; /* No border for the header */
     padding: 10px;
 }
-
-img {
-    max-width: 90%;
-    max-height: 90%;
-    display: block;
-    margin: auto;
-} 
 
 /* Second row for scores */
 thead tr:nth-child(2) th {
@@ -56,6 +38,7 @@ thead tr:nth-child(2) th {
 /* Table Data (td) Styling */
 td {
     border: 1px solid #ddd;
+    padding: 0;
     text-align: center;
     font-size: 1.2em;
     width: 80px; /* Fixed width */
@@ -71,7 +54,6 @@ td img {
     margin: auto;
     width: auto;
     height: auto;
-    pointer-events: none; /* Disable dragging of tally images */
 }
 
 /* Disable hover and pointer for the middle column */
@@ -94,5 +76,105 @@ th#undo-btn-container {
     cursor: pointer;           /* Show pointer cursor when hovering */
     width: 30px;                /* Set the image size */
     height: auto;               /* Maintain aspect ratio */
+}
+
+@media (max-width: 600px) {
+    html, body {
+        height: 100%;            /* Ensure the HTML and body take up full height */
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        user-select: none;
+    }
+    
+    table {
+        margin: 20px auto;
+        border-collapse: collapse;
+        width: 95%;
+        height: 90vh;
+        max-width: 95%;
+        border: 2px solid #ddd; /* Outer border for the entire table */
+        border-collapse: collapse;
+    }
+    
+    /* Thicker border between the header and data */
+    thead {
+        border-bottom: 2px solid #ddd; /* Thicker border under the header */
+    }
+    
+    th, td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 4px;
+        font-size: 1.2em;
+    }
+    
+    th {
+        background-color: #f4f4f4;
+        border: none; /* No border for the header */
+        padding: 10px;
+    }
+    
+    img {
+        max-width: 90%;
+        max-height: 90%;
+        display: block;
+        margin: auto;
+    } 
+    
+    /* Second row for scores */
+    thead tr:nth-child(2) th {
+        background-color: #f4f4f4;
+        font-weight: normal;
+    }
+    
+    /* Table Data (td) Styling */
+    td {
+        border: 1px solid #ddd;
+        text-align: center;
+        font-size: 1.2em;
+        width: 80px; /* Fixed width */
+        height: 80px; /* Fixed height */
+        box-sizing: border-box;
+    }
+      
+    /* Images inside td */
+    td img {
+        max-width: 100%; 
+        max-height: 100%;
+        display: block;
+        margin: auto;
+        width: auto;
+        height: auto;
+        pointer-events: none; /* Disable dragging of tally images */
+    }
+    
+    /* Disable hover and pointer for the middle column */
+    td:nth-child(2) {
+        cursor: default; /* Normal arrow cursor */
+        width: 25%; /* Adjust width to make it smaller */
+        font-size: 1.1em; /* Optional: Reduce font size to fit the smaller column */
+    }
+    
+    /* Apply flexbox only to the middle column header */
+    th#undo-btn-container {
+        display: flex;              /* Enable flexbox */
+        justify-content: center;    /* Center horizontally */
+        align-items: center;        /* Center vertically */
+        height: 100%;               /* Ensure the cell takes full height */
+    }
+    
+    /* Ensure undo image itself looks correct */
+    #undo-btn {
+        cursor: pointer;           /* Show pointer cursor when hovering */
+        width: 30px;                /* Set the image size */
+        height: auto;               /* Maintain aspect ratio */
+    }
 }
 
