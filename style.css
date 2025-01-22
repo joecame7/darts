@@ -1,3 +1,9 @@
+html, body {
+    height: 100%;            /* Ensure the HTML and body take up full height */
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -9,9 +15,11 @@ body {
 table {
     margin: 20px auto;
     border-collapse: collapse;
-    width: 90%;
-    max-width: 500px;
+    width: 95%;
+    height: 90vh;
+    max-width: 95%;
     border: 2px solid #ddd; /* Outer border for the entire table */
+    border-collapse: collapse;
 }
 
 /* Thicker border between the header and data */
@@ -22,6 +30,8 @@ thead {
 th, td {
     border: 1px solid #ddd;
     text-align: center;
+    padding: 0;
+    font-size: 1.2em;
 }
 
 th {
@@ -29,6 +39,13 @@ th {
     border: none; /* No border for the header */
     padding: 10px;
 }
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+} 
 
 /* Second row for scores */
 thead tr:nth-child(2) th {
