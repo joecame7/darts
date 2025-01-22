@@ -61,11 +61,7 @@ document.querySelectorAll('td:nth-child(1), td:nth-child(3)').forEach((cell) => 
 
 // Undo button logic
 document.getElementById('undo-btn').addEventListener('click', () => {
-    if (actionHistory.length === 0) {
-        alert('No actions to undo!');
-        return;
-    }
-  
+    
     // Get the last action from the history
     const lastAction = actionHistory.pop();
     const { player, segment, prevHits, prevScore, cell } = lastAction;
@@ -134,3 +130,7 @@ document.addEventListener('touchstart', function(e) {
 document.addEventListener('gesturestart', function(e) {
     e.preventDefault();
 });
+
+document.addEventListener('dblclick', function(e) {
+    e.preventDefault();
+}, { passive: false });
