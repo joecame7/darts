@@ -108,12 +108,12 @@ th#undo-btn-container {
     }
     
     table {
-        margin: 5px auto;
         margin-bottom: 5px auto;
         border-collapse: collapse;
-        width: 95%;
+        width: auto !important;
         height: 90vh;
-        max-width: 95%;
+        max-width: 500px !important;  /* Maintain original max-width */
+        margin: 20px auto !important; /* Restore original margin */
         border: 2px solid #ddd; /* Outer border for the entire table */
         border-collapse: collapse;
     }
@@ -172,19 +172,20 @@ th#undo-btn-container {
     }
 
     th:first-child, th:last-child {
-        width: 150px !important;        /* Force fixed width */
-        max-width: 150px !important;    /* Prevent expanding */
-        min-width: 150px !important;    /* Ensure minimum width */
-        overflow: hidden;               /* Hide overflowing text */
-        text-overflow: ellipsis;        /* Show ellipsis for long text */
-        white-space: nowrap;            /* Prevent text wrapping */
+        width: 150px !important;
+        max-width: 150px !important;
+        min-width: 150px !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     /* Disable hover and pointer for the middle column */
     td:nth-child(2) {
         cursor: default; /* Normal arrow cursor */
-        width: 25%; /* Adjust width to make it smaller */
+        width: auto !important; /* Allow middle column to size naturally */
         font-size: 1.3em; /* Optional: Reduce font size to fit the smaller column */
+        min-width: 80px; /* Ensure some minimum width for numbers */
     }
     
     /* Apply flexbox only to the middle column header */
