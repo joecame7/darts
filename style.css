@@ -108,12 +108,12 @@ th#undo-btn-container {
     }
     
     table {
+        margin: 5px auto;
         margin-bottom: 5px auto;
         border-collapse: collapse;
-        width: auto !important;
+        width: 95%;
         height: 90vh;
-        max-width: 500px !important;  /* Maintain original max-width */
-        margin: 20px auto !important; /* Restore original margin */
+        max-width: 95%;
         border: 2px solid #ddd; /* Outer border for the entire table */
         border-collapse: collapse;
     }
@@ -172,20 +172,18 @@ th#undo-btn-container {
     }
 
     th:first-child, th:last-child {
-        width: 150px !important;
-        max-width: 150px !important;
-        min-width: 150px !important;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        width: 150px;        /* Set a fixed width for Player 1 and Player 2 columns */
+        max-width: 150px;    /* Prevent the columns from expanding */
+        overflow: hidden;    /* Hide any overflowed text */
+        text-overflow: ellipsis; /* Show ellipsis when text is too long */
+        white-space: nowrap; /* Prevent text from wrapping */
     }
 
     /* Disable hover and pointer for the middle column */
     td:nth-child(2) {
         cursor: default; /* Normal arrow cursor */
-        width: auto !important; /* Allow middle column to size naturally */
+        width: 25%; /* Adjust width to make it smaller */
         font-size: 1.3em; /* Optional: Reduce font size to fit the smaller column */
-        min-width: 80px; /* Ensure some minimum width for numbers */
     }
     
     /* Apply flexbox only to the middle column header */
