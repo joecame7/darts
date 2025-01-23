@@ -172,8 +172,8 @@ th#undo-btn-container {
     }
 
     th:first-child, th:last-child {
-        width: 150px;        /* Set a fixed width for Player 1 and Player 2 columns */
-        max-width: 150px;    /* Prevent the columns from expanding */
+        width: 25%;        /* Set a fixed width for Player 1 and Player 2 columns */
+        max-width: 25%;    /* Prevent the columns from expanding */
         overflow: hidden;    /* Hide any overflowed text */
         text-overflow: ellipsis; /* Show ellipsis when text is too long */
         white-space: nowrap; /* Prevent text from wrapping */
