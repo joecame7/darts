@@ -113,7 +113,6 @@ th#undo-btn-container {
         border-collapse: collapse;
         width: 95%;
         height: 90vh;
-        min-width: 95%;
         max-width: 95%;
         border: 2px solid #ddd; /* Outer border for the entire table */
         border-collapse: collapse;
@@ -173,9 +172,8 @@ th#undo-btn-container {
     }
 
     th:first-child, th:last-child {
-        width: 25%;        /* Set a fixed width for Player 1 and Player 2 columns */
-        min-width: 25%;
-        max-width: 25%;    /* Prevent the columns from expanding */
+        width: 150px;        /* Set a fixed width for Player 1 and Player 2 columns */
+        max-width: 150px;    /* Prevent the columns from expanding */
         overflow: hidden;    /* Hide any overflowed text */
         text-overflow: ellipsis; /* Show ellipsis when text is too long */
         white-space: nowrap; /* Prevent text from wrapping */
