@@ -1,4 +1,4 @@
-// Path to your images
+// Path to images
 const images = ['tally1.png', 'tally2.png', 'tally3.png'];
 
 // Player hit counts for each segment (20, 19, ..., Bull)
@@ -40,7 +40,6 @@ document.querySelectorAll('td:nth-child(1), td:nth-child(3)').forEach((cell) => 
         const currentIndex = img ? images.indexOf(img.src.split('/').pop()) : -1;
         const nextIndex = currentIndex < images.length - 1 ? currentIndex + 1 : currentIndex;
 
-    
         if (nextIndex < 3) {
             hits[player][segment]++;
             if (!img) {
@@ -119,18 +118,18 @@ function updateScores(segment) {
     }
 }
 
-// Disable double-tap zoom on iOS
+// Disable zoom operations
 document.addEventListener('touchstart', function(e) {
     if (e.touches.length > 1) {
         e.preventDefault();
     }
 }, { passive: false });
 
+document.addEventListener('dblclick', function(e) {
+    e.preventDefault();
+}, { passive: false });
+
 // Disable pinch-to-zoom
 document.addEventListener('gesturestart', function(e) {
     e.preventDefault();
 });
-
-document.addEventListener('dblclick', function(e) {
-    e.preventDefault();
-}, { passive: false });
