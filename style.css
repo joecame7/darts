@@ -3,6 +3,8 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
+    user-select: none;
+    outline: none;
 }
 
 table {
@@ -58,6 +60,14 @@ td img {
     height: auto;
 }
 
+th:first-child, th:last-child {
+    width: 150px;        /* Set a fixed width for Player 1 and Player 2 columns */
+    max-width: 150px;    /* Prevent the columns from expanding */
+    overflow: hidden;    /* Hide any overflowed text */
+    text-overflow: ellipsis; /* Show ellipsis when text is too long */
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+
 /* Disable hover and pointer for the middle column */
 td:nth-child(2) {
     cursor: default; /* Normal arrow cursor */
@@ -94,9 +104,11 @@ th#undo-btn-container {
         margin: 0;
         padding: 0;
         user-select: none;
+        outline: none;
     }
     
     table {
+        table-layout: fixed;
         margin: 5px auto;
         margin-bottom: 5px auto;
         border-collapse: collapse;
@@ -159,7 +171,15 @@ th#undo-btn-container {
         height: auto;
         pointer-events: none; /* Disable dragging of tally images */
     }
-    
+
+    th:first-child, th:last-child {
+        width: 150px;        /* Set a fixed width for Player 1 and Player 2 columns */
+        max-width: 150px;    /* Prevent the columns from expanding */
+        overflow: hidden;    /* Hide any overflowed text */
+        text-overflow: ellipsis; /* Show ellipsis when text is too long */
+        white-space: nowrap; /* Prevent text from wrapping */
+    }
+
     /* Disable hover and pointer for the middle column */
     td:nth-child(2) {
         cursor: default; /* Normal arrow cursor */
