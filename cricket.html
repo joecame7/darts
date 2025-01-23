@@ -9,21 +9,21 @@
 <body>
   <table>
     <thead>
-        <!-- Header Row: Player Names -->
-        <tr>
-          <th>Player 1</th>
+      <!-- Header Row: Editable Player Names -->
+      <tr>
+          <th id="p1-name" contenteditable="true" oninput="validateName(this)">Player 1</th>
           <th id="undo-btn-container">
-            <img id="undo-btn" src="undo.png" alt="Undo" />
+              <img id="undo-btn" src="undo.png" alt="Undo" />
           </th>
-          <th>Player 2</th>
-        </tr>
-        <!-- Second Row: Player Scores -->
-        <tr>
+          <th id="p2-name" contenteditable="true" oninput="validateName(this)">Player 2</th>
+      </tr>
+      <!-- Second Row: Player Scores -->
+      <tr>
           <th id="p1-score">0</th>
           <th></th>
           <th id="p2-score">0</th>
-        </tr>
-      </thead>
+      </tr>
+    </thead>
     <tbody>
       <!-- Repeat this structure for each row -->
       <tr>

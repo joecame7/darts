@@ -162,7 +162,7 @@ th#undo-btn-container {
         height: auto;
         pointer-events: none; /* Disable dragging of tally images */
     }
-    
+
     /* Disable hover and pointer for the middle column */
     td:nth-child(2) {
         cursor: default; /* Normal arrow cursor */
