@@ -134,10 +134,3 @@ document.addEventListener('gesturestart', function(e) {
 document.addEventListener('dblclick', function(e) {
     e.preventDefault();
 }, { passive: false });
-
-function validateName(element) {
-    const maxLength = 10;
-    if (element.innerText.length > maxLength) {
-        element.innerText = element.innerText.substring(0, maxLength);  // Truncate if too long
-    }
-}
