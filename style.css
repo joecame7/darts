@@ -69,15 +69,16 @@ td:nth-child(2) {
 th#undo-btn-container {
     display: flex;              /* Enable flexbox */
     justify-content: center;    /* Center horizontally */
-    align-items: center;        /* Center vertically */
-    height: 100%;               /* Ensure the cell takes full height */
+    align-items: flex-start;     /* Align items at the top of the header */
 }
 
 /* Ensure undo image itself looks correct */
 #undo-btn {
     cursor: pointer;           /* Show pointer cursor when hovering */
-    width: 30px;                /* Set the image size */
+    width: 40px;                /* Set the image size */
     height: auto;               /* Maintain aspect ratio */
+    position: relative;          /* Position the image relatively */
+    top: 20px;                   /* Move it down by 10px (adjust as needed) */
 }
 
 @media (max-width: 600px) {
@@ -170,15 +171,17 @@ th#undo-btn-container {
     th#undo-btn-container {
         display: flex;              /* Enable flexbox */
         justify-content: center;    /* Center horizontally */
-        align-items: center;        /* Center vertically */
+        align-items: flex-start;     /* Align items at the top of the header */
         height: 100%;               /* Ensure the cell takes full height */
     }
     
     /* Ensure undo image itself looks correct */
     #undo-btn {
         cursor: pointer;           /* Show pointer cursor when hovering */
-        width: 30px;                /* Set the image size */
+        width: 40px;                /* Set the image size */
         height: auto;               /* Maintain aspect ratio */
+        position: relative;          /* Position the image relatively */
+        top: 20px;                   /* Move it down by 10px (adjust as needed) */
     }
 }
 
