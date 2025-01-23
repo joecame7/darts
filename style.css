@@ -3,6 +3,8 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
+    user-select: none;
+    outline: none;
 }
 
 table {
@@ -94,6 +96,7 @@ th#undo-btn-container {
         margin: 0;
         padding: 0;
         user-select: none;
+        outline: none;
     }
     
     table {
