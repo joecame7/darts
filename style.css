@@ -113,6 +113,7 @@ th#undo-btn-container {
         border-collapse: collapse;
         width: 95%;
         height: 90vh;
+        min-width: 95%;
         max-width: 95%;
         border: 2px solid #ddd; /* Outer border for the entire table */
         border-collapse: collapse;
