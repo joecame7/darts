@@ -172,11 +172,12 @@ th#undo-btn-container {
     }
 
     th:first-child, th:last-child {
-        width: 150px;        /* Set a fixed width for Player 1 and Player 2 columns */
-        max-width: 150px;    /* Prevent the columns from expanding */
-        overflow: hidden;    /* Hide any overflowed text */
-        text-overflow: ellipsis; /* Show ellipsis when text is too long */
-        white-space: nowrap; /* Prevent text from wrapping */
+        width: 150px !important;        /* Force fixed width */
+        max-width: 150px !important;    /* Prevent expanding */
+        min-width: 150px !important;    /* Ensure minimum width */
+        overflow: hidden;               /* Hide overflowing text */
+        text-overflow: ellipsis;        /* Show ellipsis for long text */
+        white-space: nowrap;            /* Prevent text wrapping */
     }
 
     /* Disable hover and pointer for the middle column */
