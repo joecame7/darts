@@ -108,7 +108,6 @@ th#undo-btn-container {
     }
     
     table {
-        table-layout: fixed;
         margin: 5px auto;
         margin-bottom: 5px auto;
         border-collapse: collapse;
