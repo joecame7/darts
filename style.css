@@ -62,7 +62,7 @@ td img {
 td:nth-child(2) {
     cursor: default; /* Normal arrow cursor */
     width: 25%; /* Adjust width to make it smaller */
-    font-size: 1.1em; /* Optional: Reduce font size to fit the smaller column */
+    font-size: 1.3em; /
 }
 
 /* Apply flexbox only to the middle column header */
@@ -163,7 +163,7 @@ th#undo-btn-container {
     td:nth-child(2) {
         cursor: default; /* Normal arrow cursor */
         width: 25%; /* Adjust width to make it smaller */
-        font-size: 1.1em; /* Optional: Reduce font size to fit the smaller column */
+        font-size: 1.3em; /* Optional: Reduce font size to fit the smaller column */
     }
     
     /* Apply flexbox only to the middle column header */
