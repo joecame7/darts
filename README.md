@@ -1,3 +1,7 @@
+Play now:
+
+https://joecame7.github.io/darts/
+
 Instructions:
 
 - Add scores by clicking the box corresponding to
