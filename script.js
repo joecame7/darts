@@ -47,8 +47,6 @@ document.querySelectorAll('td:nth-child(1), td:nth-child(3)').forEach((cell) => 
             if (!img) {
                 const newImg = document.createElement('img');
                 newImg.src = images[nextIndex];
-                newImg.style.width = '50px';
-                newImg.style.height = '50px';
                 cell.appendChild(newImg);
             } else {
                 img.src = images[nextIndex];
@@ -89,8 +87,6 @@ document.getElementById('undo-btn').addEventListener('click', () => {
         if (!img) {
             const newImg = document.createElement('img');
             newImg.src = images[prevIndex];
-            newImg.style.width = '30px';
-            newImg.style.height = '30px';
             cell.appendChild(newImg);
         } else {
             img.src = images[prevIndex];

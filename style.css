@@ -105,6 +105,7 @@ table {
     margin: 20px auto;
     margin-bottom: 20px auto;
     border-collapse: collapse;
+    table-layout: fixed;
     width: 90%;
     max-width: 500px;
     border: 2px solid #ddd; /* Outer border for the entire table */
@@ -118,6 +119,7 @@ thead {
 th, td {
     border: 1px solid #ddd;
     text-align: center;
+    box-sizing: border-box;
 }
 
 th {
@@ -137,7 +139,10 @@ thead tr:nth-child(2) th {
 td {
     border: 1px solid #ddd;
     padding: 0;
+    position: relative;
+    overflow: hidden;
     text-align: center;
+    vertical-align: middle;
     font-size: 1.2em;
     width: 80px; /* Fixed width */
     height: 80px; /* Fixed height */
@@ -146,12 +151,18 @@ td {
   
 /* Images inside td */
 td img {
-    max-width: 100%; 
-    max-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
     display: block;
-    margin: auto;
-    width: auto;
-    height: auto;
+    width: 50px;
+    height: 50px;
+    max-width: 72%;
+    max-height: 72%;
+    margin: 0;
+    object-fit: contain;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
 }
 
 th:first-child, th:last-child {
@@ -186,114 +197,129 @@ th#undo-btn-container {
 }
 
 @media (max-width: 600px) {
-    html, body {
-        height: 100%;            /* Ensure the HTML and body take up full height */
-        margin: 0;
-        padding: 0;
+    html {
+        height: 100%;
     }
-    
-    body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        user-select: none;
-        outline: none;
+
+    .home-page {
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: 20px;
     }
-    
-    table {
-        margin: 5px auto;
-        margin-bottom: 5px auto;
-        border-collapse: collapse;
-        width: 95%;
-        height: 90vh;
-        max-width: 95%;
-        border: 2px solid #ddd; /* Outer border for the entire table */
-        border-collapse: collapse;
+
+    .home-page h1 {
+        font-size: clamp(2.25rem, 16vw, 3rem);
     }
-    
-    /* Thicker border between the header and data */
-    thead {
-        border-bottom: 2px solid #ddd; /* Thicker border under the header */
+
+    .mode-card {
+        min-height: 76px;
+        padding: 16px;
     }
-    
-    th, td {
-        border: 1px solid #ddd;
-        text-align: center;
-        padding: 4px;
-        font-size: 1.2em;
-    }
-    
-    th {
-        background-color: #f4f4f4;
-        border: none; /* No border for the header */
-        padding: 10px;
-    }
-    
-    img {
-        max-width: 80%;
-        max-height: 80%;
-        display: block;
-        margin: auto;
-    } 
-    
-    /* Second row for scores */
-    thead tr:nth-child(2) th {
-        background-color: #f4f4f4;
-        font-size: 150%;
-        font-weight: normal;
-    }
-    
-    /* Table Data (td) Styling */
-    td {
-        border: 1px solid #ddd;
-        text-align: center;
-        font-size: 1.2em;
-        width: 80px; /* Fixed width */
-        height: 80px; /* Fixed height */
+
+    body.game-page {
+        height: 100vh;
+        height: 100svh;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        padding: max(5px, env(safe-area-inset-top)) max(5px, env(safe-area-inset-right)) max(5px, env(safe-area-inset-bottom)) max(5px, env(safe-area-inset-left));
         box-sizing: border-box;
+        overflow: hidden;
     }
-      
-    /* Images inside td */
-    td img {
-        max-width: 100%; 
-        max-height: 100%;
-        display: block;
-        margin: auto;
+
+    .game-page table {
+        --player-row-height: clamp(46px, 7vh, 58px);
+        --score-row-height: clamp(36px, 6vh, 48px);
+
+        width: min(96vw, 500px);
+        max-width: 100%;
+        height: 100%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        table-layout: fixed;
+    }
+
+    .game-page thead tr:first-child {
+        height: var(--player-row-height);
+    }
+
+    .game-page thead tr:nth-child(2) {
+        height: var(--score-row-height);
+    }
+
+    .game-page tbody tr {
+        height: calc((100% - var(--player-row-height) - var(--score-row-height)) / 7);
+    }
+
+    .game-page th,
+    .game-page td {
+        padding: 0;
+    }
+
+    .game-page td {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .game-page th {
+        font-size: clamp(0.9rem, 4.2vw, 1.15rem);
+        line-height: 1.1;
+    }
+
+    .game-page thead tr:nth-child(2) th {
+        font-size: clamp(1.15rem, 6vw, 1.65rem);
+    }
+
+    .game-page td {
         width: auto;
         height: auto;
-        pointer-events: none; /* Disable dragging of tally images */
+        font-size: clamp(1rem, 5vw, 1.35rem);
     }
 
-    th:first-child, th:last-child {
-        width: 150px;        /* Set a fixed width for Player 1 and Player 2 columns */
-        max-width: 150px;    /* Prevent the columns from expanding */
-        overflow: hidden;    /* Hide any overflowed text */
-        text-overflow: ellipsis; /* Show ellipsis when text is too long */
-        white-space: nowrap; /* Prevent text from wrapping */
+    .game-page th:first-child,
+    .game-page th:last-child {
+        width: 38%;
+        max-width: none;
     }
 
-    /* Disable hover and pointer for the middle column */
-    td:nth-child(2) {
-        cursor: default; /* Normal arrow cursor */
-        width: 25%; /* Adjust width to make it smaller */
-        font-size: 1.3em; /* Optional: Reduce font size to fit the smaller column */
+    .game-page th:nth-child(2),
+    .game-page td:nth-child(2) {
+        width: 24%;
+        font-size: clamp(1rem, 5vw, 1.35rem);
     }
-    
-    /* Apply flexbox only to the middle column header */
-    th#undo-btn-container {
-        display: flex;              /* Enable flexbox */
-        justify-content: center;    /* Center horizontally */
-        align-items: flex-start;     /* Align items at the top of the header */
-        height: 100%;               /* Ensure the cell takes full height */
+
+    .game-page td img {
+        width: clamp(30px, 9vh, 54px);
+        height: clamp(30px, 9vh, 54px);
+        max-width: 72%;
+        max-height: 72%;
+        object-fit: contain;
     }
-    
-    /* Ensure undo image itself looks correct */
-    #undo-btn {
-        cursor: pointer;           /* Show pointer cursor when hovering */
-        width: 40px;                /* Set the image size */
-        height: auto;               /* Maintain aspect ratio */
-        position: relative;          /* Position the image relatively */
-        top: 20px;                   /* Move it down by 10px (adjust as needed) */
+
+    .game-page th#undo-btn-container {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0;
+    }
+
+    .game-page #undo-btn {
+        width: clamp(28px, 6vh, 40px);
+        top: 0;
+    }
+
+    @supports (height: 100svh) {
+        .game-page table {
+            --player-row-height: clamp(46px, 7svh, 58px);
+            --score-row-height: clamp(36px, 6svh, 48px);
+        }
+
+        .game-page td img {
+            width: clamp(30px, 9svh, 54px);
+            height: clamp(30px, 9svh, 54px);
+        }
+
+        .game-page #undo-btn {
+            width: clamp(28px, 6svh, 40px);
+        }
     }
 }
