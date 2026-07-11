@@ -5,6 +5,100 @@ body {
     padding: 0;
     user-select: none;
     outline: none;
+    color: #1f2933;
+    background: #ffffff;
+}
+
+.home-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 24px;
+    text-align: left;
+    background: #f7f7f4;
+}
+
+.home-shell {
+    width: min(100%, 560px);
+}
+
+.home-eyebrow {
+    margin: 0 0 12px;
+    color: #6b7280;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.home-page h1 {
+    margin: 0;
+    color: #111827;
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.home-intro {
+    margin: 16px 0 32px;
+    color: #4b5563;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.mode-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.mode-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 84px;
+    padding: 18px 20px;
+    border: 1px solid #d6d3cc;
+    border-radius: 8px;
+    color: #111827;
+    text-decoration: none;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+}
+
+.mode-card:focus,
+.mode-card:hover {
+    border-color: #246b52;
+    outline: none;
+}
+
+.mode-title,
+.mode-detail {
+    display: block;
+}
+
+.mode-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.mode-detail {
+    margin-top: 6px;
+    color: #6b7280;
+    line-height: 1.35;
+}
+
+.mode-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #246b52;
+    font-size: 1.2rem;
 }
 
 table {
@@ -72,7 +166,7 @@ th:first-child, th:last-child {
 td:nth-child(2) {
     cursor: default; /* Normal arrow cursor */
     width: 25%; /* Adjust width to make it smaller */
-    font-size: 1.3em; /
+    font-size: 1.3em;
 }
 
 /* Apply flexbox only to the middle column header */

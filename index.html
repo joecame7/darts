@@ -2,66 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-  <title>Darts Scoring - Cricket</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darts Scoring</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <table>
-    <thead>
-      <tr>
-          <th>Player 1</th>
-          <th id="undo-btn-container">
-              <img id="undo-btn" src="undo.png" alt="Undo" />
-          </th>
-          <th>Player 2</th>
-      </tr>
-      <!-- Second Row: Player Scores -->
-      <tr>
-          <th id="p1-score">0</th>
-          <th></th>
-          <th id="p2-score">0</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Repeat this structure for each row -->
-      <tr>
-        <td></td>
-        <td>20</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>19</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>18</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>17</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>16</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>15</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>Bull</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <script src="script.js"></script>
+<body class="home-page">
+  <main class="home-shell">
+    <p class="home-eyebrow">Darts scoring</p>
+    <h1>Darts</h1>
+    <p class="home-intro">Pick a game mode to start keeping score.</p>
+
+    <nav class="mode-grid" aria-label="Game modes">
+      <a class="mode-card" href="cricket/">
+        <span>
+          <span class="mode-title">Cricket</span>
+          <span class="mode-detail">20, 19, 18, 17, 16, 15, Bull</span>
+        </span>
+        <span class="mode-arrow" aria-hidden="true">&rarr;</span>
+      </a>
+    </nav>
+  </main>
 </body>
 </html>

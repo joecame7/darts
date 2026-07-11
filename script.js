@@ -1,5 +1,6 @@
 // Path to images
-const images = ['tally1.png', 'tally2.png', 'tally3.png'];
+const assetBase = document.body.dataset.assetBase || '';
+const images = ['tally1.png', 'tally2.png', 'tally3.png'].map((image) => `${assetBase}${image}`);
 
 // Player hit counts for each segment (20, 19, ..., Bull)
 const hits = {
@@ -37,7 +38,8 @@ document.querySelectorAll('td:nth-child(1), td:nth-child(3)').forEach((cell) => 
   
         // Update the hit count
         const img = cell.querySelector('img');
-        const currentIndex = img ? images.indexOf(img.src.split('/').pop()) : -1;
+        const currentImage = img ? img.src.split('/').pop() : '';
+        const currentIndex = currentImage ? images.findIndex((image) => image.endsWith(currentImage)) : -1;
         const nextIndex = currentIndex < images.length - 1 ? currentIndex + 1 : currentIndex;
 
         if (nextIndex < 3) {
@@ -63,6 +65,8 @@ document.getElementById('undo-btn').addEventListener('click', () => {
     
     // Get the last action from the history
     const lastAction = actionHistory.pop();
+    if (!lastAction) return;
+
     const { player, segment, prevHits, prevScore, cell } = lastAction;
   
     // Restore the previous hits

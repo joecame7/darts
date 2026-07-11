@@ -2,6 +2,10 @@ Play now:
 
 https://joecame7.github.io/darts/
 
+Cricket scoreboard:
+
+https://joecame7.github.io/darts/cricket/
+
 Instructions:
 
 - Add scores by clicking the box corresponding to
