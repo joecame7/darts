@@ -1195,6 +1195,36 @@ begin
 end;
 $$;
 
+-- Delete one game owned by the signed-in user. Existing foreign-key cascades
+-- remove the game's players, rounds, events, turns, throws, and results while
+-- leaving the account profile and saved opponents intact.
+create or replace function public.delete_owned_game(p_game_id uuid)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_owner_user_id uuid := auth.uid();
+begin
+  if v_owner_user_id is null then
+    raise exception 'Authentication is required'
+      using errcode = '42501';
+  end if;
+
+  if p_game_id is null then
+    raise exception 'A game id is required'
+      using errcode = '22004';
+  end if;
+
+  delete from public.games
+  where id = p_game_id
+    and owner_user_id = v_owner_user_id;
+
+  return found;
+end;
+$$;
+
 revoke all on function public.start_cricket_game(text, uuid, text, text)
   from public, anon;
 grant execute on function public.start_cricket_game(text, uuid, text, text)
@@ -1209,5 +1239,9 @@ grant execute on function public.complete_cricket_game(
 
 revoke all on function public.abandon_cricket_game(uuid, uuid) from public, anon;
 grant execute on function public.abandon_cricket_game(uuid, uuid) to authenticated;
+
+revoke all on function public.delete_owned_game(uuid)
+  from public, anon, authenticated;
+grant execute on function public.delete_owned_game(uuid) to authenticated;
 
 commit;

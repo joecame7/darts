@@ -124,6 +124,24 @@
     </article>
   </main>
 
+  <dialog
+    class="auth-dialog result-dialog"
+    id="delete-game-dialog"
+    aria-labelledby="delete-game-title"
+    aria-describedby="delete-game-description"
+  >
+    <div class="result-dialog-body">
+      <p class="section-label">Saved game</p>
+      <h2 id="delete-game-title">Delete this game?</h2>
+      <p id="delete-game-description">This permanently deletes the game, including its saved scorecard and timeline. It will no longer count towards your statistics. This cannot be undone.</p>
+      <p class="auth-message" id="delete-game-message" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="result-actions">
+        <button class="secondary-button" id="cancel-delete-game-button" type="button" autofocus>Keep game</button>
+        <button class="primary-button danger-button" id="confirm-delete-game-button" type="button">Delete game permanently</button>
+      </div>
+    </div>
+  </dialog>
+
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.2"></script>
   <script defer src="../../supabase-config.js"></script>
   <script defer src="../../supabase-client.js"></script>

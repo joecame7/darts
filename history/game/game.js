@@ -33,8 +33,16 @@
   const timeline = document.getElementById('detail-event-timeline');
   const timelineCount = document.getElementById('detail-timeline-count');
   const timelineEmpty = document.getElementById('detail-timeline-empty');
+  const deleteGameDialog = document.getElementById('delete-game-dialog');
+  const deleteGameDescription = document.getElementById('delete-game-description');
+  const deleteGameMessage = document.getElementById('delete-game-message');
+  const cancelDeleteGameButton = document.getElementById('cancel-delete-game-button');
+  const confirmDeleteGameButton = document.getElementById('confirm-delete-game-button');
 
   let loadVersion = 0;
+  let displayedGame = null;
+  let displayedUserId = null;
+  let deleteInProgress = false;
 
   function setMessage(text, kind = '') {
     message.textContent = text;
@@ -54,6 +62,78 @@
   function throwIfError(response) {
     if (response?.error) throw response.error;
     return response?.data;
+  }
+
+  function showDialog(dialog) {
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    else dialog.setAttribute('open', '');
+  }
+
+  function closeDialog(dialog) {
+    if (typeof dialog.close === 'function') dialog.close();
+    else dialog.removeAttribute('open');
+  }
+
+  function setDeleteMessage(text, kind = '') {
+    deleteGameMessage.textContent = text;
+    deleteGameMessage.dataset.kind = kind;
+  }
+
+  function setDeleteBusy(busy) {
+    deleteInProgress = busy;
+    cancelDeleteGameButton.disabled = busy;
+    confirmDeleteGameButton.disabled = busy;
+    confirmDeleteGameButton.textContent = busy ? 'Deleting…' : 'Delete game permanently';
+    deleteGameDialog.setAttribute('aria-busy', String(busy));
+  }
+
+  function resetDeleteDialog() {
+    setDeleteBusy(false);
+    setDeleteMessage('');
+    if (deleteGameDialog.open || deleteGameDialog.hasAttribute('open')) closeDialog(deleteGameDialog);
+  }
+
+  function openDeleteDialog() {
+    if (!displayedGame || !displayedUserId || deleteInProgress) return;
+    deleteGameDescription.textContent = `This permanently deletes “${title.textContent}”, including its saved scorecard and timeline. It will no longer count towards your statistics. This cannot be undone.`;
+    setDeleteMessage('');
+    showDialog(deleteGameDialog);
+    window.setTimeout(() => cancelDeleteGameButton.focus(), 0);
+  }
+
+  function closeDeleteGameDialog() {
+    if (deleteInProgress) return;
+    setDeleteMessage('');
+    closeDialog(deleteGameDialog);
+  }
+
+  async function deleteDisplayedGame() {
+    if (deleteInProgress || !displayedGame || !displayedUserId) return;
+
+    const gameId = displayedGame.id;
+    const userId = displayedUserId;
+    const version = loadVersion;
+    setDeleteBusy(true);
+    setDeleteMessage('Deleting the game…');
+
+    try {
+      const response = await service.client.rpc('delete_owned_game', { p_game_id: gameId });
+      if (response.error) throw response.error;
+      if (version !== loadVersion
+        || displayedUserId !== userId
+        || displayedGame?.id !== gameId) return;
+
+      setDeleteBusy(false);
+      window.location.replace('../?deleted=1');
+    } catch (error) {
+      if (version !== loadVersion
+        || displayedUserId !== userId
+        || displayedGame?.id !== gameId) return;
+      console.error('Unable to delete game', error);
+      setDeleteBusy(false);
+      setDeleteMessage(error?.message || 'The game could not be deleted. Please try again.', 'error');
+      confirmDeleteGameButton.focus();
+    }
   }
 
   function validGameId(value) {
@@ -166,7 +246,13 @@
     historyLink.className = 'secondary-button button-link';
     historyLink.href = '../';
     historyLink.textContent = 'View all history';
-    actions.append(primary, historyLink);
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'secondary-button delete-game-trigger';
+    deleteButton.id = 'delete-game-button';
+    deleteButton.type = 'button';
+    deleteButton.textContent = 'Delete game';
+    deleteButton.addEventListener('click', openDeleteDialog);
+    actions.append(primary, historyLink, deleteButton);
   }
 
   function renderScorecard(replay) {
@@ -260,6 +346,8 @@
     const firstPlayer = replay.players[0];
     const secondPlayer = replay.players[1];
     const opponent = summary.opponent;
+    displayedGame = game;
+    displayedUserId = userId;
 
     title.textContent = opponent
       ? `${formatGameType(game.game_type)} vs ${opponent.display_name}`
@@ -320,6 +408,9 @@
     const version = ++loadVersion;
     const user = session?.user || null;
     const gameId = new URLSearchParams(window.location.search).get('id');
+    displayedGame = null;
+    displayedUserId = user?.id || null;
+    resetDeleteDialog();
     detail.hidden = true;
     unavailableState.hidden = true;
     signedOutState.hidden = Boolean(user);
@@ -373,6 +464,21 @@
     window.location.replace('../../');
   });
 
+  cancelDeleteGameButton.addEventListener('click', closeDeleteGameDialog);
+  confirmDeleteGameButton.addEventListener('click', deleteDisplayedGame);
+  deleteGameDialog.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeDeleteGameDialog();
+  });
+  deleteGameDialog.addEventListener('click', (event) => {
+    if (event.target === deleteGameDialog) closeDeleteGameDialog();
+  });
+  window.addEventListener('beforeunload', (event) => {
+    if (!deleteInProgress) return;
+    event.preventDefault();
+    event.returnValue = '';
+  });
+
   if (!service || !historyData) {
     setUnavailableState(true);
     setMessage(window.DARTS_SUPABASE_ERROR || 'Game details are temporarily unavailable.', 'error');
@@ -380,6 +486,7 @@
   }
 
   service.client.auth.onAuthStateChange((_event, session) => {
+    if (deleteInProgress && session?.user?.id === displayedUserId) return;
     window.setTimeout(() => loadDetail(session), 0);
   });
 

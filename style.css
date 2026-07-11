@@ -958,6 +958,23 @@ button:disabled,
     margin-top: -14px;
 }
 
+.delete-game-trigger {
+    margin-left: auto;
+    border-color: #d8aaa6;
+    color: #8f2f29;
+}
+
+.delete-game-trigger:hover,
+.delete-game-trigger:focus-visible {
+    border-color: #a8342d;
+    color: #81251f;
+    background: #fff7f6;
+}
+
+#delete-game-description {
+    overflow-wrap: anywhere;
+}
+
 .game-score-section {
     padding-bottom: 28px;
 }
@@ -1717,6 +1734,10 @@ button:disabled,
     .game-detail-actions {
         align-items: stretch;
         flex-direction: column;
+    }
+
+    .delete-game-trigger {
+        margin-left: 0;
     }
 
     .game-scoreboard {

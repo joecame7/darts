@@ -22,6 +22,14 @@
   const opponentRecordEmpty = document.getElementById('opponent-record-empty');
   const filterButtons = [...document.querySelectorAll('.history-filter')];
 
+  const initialUrl = new URL(window.location.href);
+  let pendingDeletedNotice = initialUrl.searchParams.get('deleted') === '1';
+  let deletedNoticeVisible = false;
+  if (pendingDeletedNotice) {
+    initialUrl.searchParams.delete('deleted');
+    window.history.replaceState(null, '', `${initialUrl.pathname}${initialUrl.search}${initialUrl.hash}`);
+  }
+
   let loadVersion = 0;
   let activeFilter = 'all';
   let currentSummaries = [];
@@ -29,6 +37,17 @@
   function setMessage(text, kind = '') {
     message.textContent = text;
     message.dataset.kind = kind;
+  }
+
+  function setLoadedMessage() {
+    if (pendingDeletedNotice) {
+      setMessage('Game deleted. Your history and statistics have been updated.', 'success');
+      pendingDeletedNotice = false;
+      deletedNoticeVisible = true;
+      return;
+    }
+    if (deletedNoticeVisible && message.dataset.kind === 'success') return;
+    setMessage('');
   }
 
   function throwIfError(result) {
@@ -326,7 +345,7 @@
 
       if (!games.length) {
         emptyState.hidden = false;
-        setMessage('');
+        setLoadedMessage();
         return;
       }
 
@@ -334,7 +353,7 @@
       if (version !== loadVersion) return;
       renderHistory(games, events, savedPlayersResult.data || [], user.id);
       historyContent.hidden = false;
-      setMessage('');
+      setLoadedMessage();
     } catch (error) {
       if (version !== loadVersion) return;
       console.error('Unable to load game history', error);
