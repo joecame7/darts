@@ -518,15 +518,19 @@ button:disabled,
 
 .history-shell,
 .game-detail-shell {
-    width: min(100% - 40px, 980px);
+    width: calc(100% - 40px);
+    max-width: 980px;
 }
 
 .history-content {
     display: grid;
+    min-width: 0;
     gap: 42px;
 }
 
 .history-section {
+    min-width: 0;
+    max-width: 100%;
     padding: 26px;
     border: 1px solid #dedbd4;
     border-radius: 12px;
@@ -612,6 +616,9 @@ button:disabled,
 }
 
 .history-table-scroll {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
     border: 1px solid #e2e1dc;
     border-radius: 10px;
@@ -668,6 +675,10 @@ button:disabled,
 
 .opponent-record-list {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
     gap: 10px;
     margin: 0;
     padding: 0;
@@ -678,6 +689,10 @@ button:disabled,
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
     gap: 22px;
     padding: 16px;
     border: 1px solid #e5e4df;
@@ -688,12 +703,17 @@ button:disabled,
 .opponent-record-identity {
     display: flex;
     align-items: center;
+    flex: 1 1 0;
     min-width: 0;
+    max-width: 100%;
     gap: 12px;
 }
 
 .opponent-record-identity > div {
+    flex: 1 1 0;
+    width: 0;
     min-width: 0;
+    max-width: 100%;
 }
 
 .opponent-record-avatar {
@@ -891,6 +911,7 @@ button:disabled,
 
 .game-detail {
     display: grid;
+    min-width: 0;
     gap: 28px;
 }
 
@@ -1598,7 +1619,7 @@ button:disabled,
 @media (max-width: 700px) {
     .history-shell,
     .game-detail-shell {
-        width: min(100% - 28px, 980px);
+        width: calc(100% - 28px);
         padding-top: 38px;
     }
 
@@ -1625,20 +1646,47 @@ button:disabled,
         padding: 15px;
     }
 
+    .target-stats-table {
+        min-width: 0;
+        table-layout: fixed;
+    }
+
+    .target-stats-table thead th {
+        padding: 10px 5px;
+        font-size: 0.68rem;
+        overflow-wrap: anywhere;
+    }
+
+    .target-stats-table tbody th,
+    .target-stats-table tbody td {
+        padding: 11px 5px;
+    }
+
+    .target-stats-table thead th:first-child {
+        width: 19%;
+    }
+
     .opponent-record-card {
         align-items: flex-start;
         flex-direction: column;
         gap: 14px;
     }
 
-    .opponent-record-identity,
-    .opponent-record-identity > div {
+    .opponent-record-identity {
+        flex: 0 0 auto;
         width: 100%;
     }
 
+    .opponent-record-card p {
+        text-overflow: clip;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
     .opponent-record-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         width: 100%;
-        justify-content: start;
+        gap: 12px;
         text-align: left;
     }
 
@@ -1702,6 +1750,10 @@ button:disabled,
 
     .history-filter {
         flex: 1 1 calc(50% - 6px);
+        min-width: 0;
+        padding-right: 6px;
+        padding-left: 6px;
+        font-size: 0.72rem;
     }
 
     .game-event-item {
@@ -1713,6 +1765,16 @@ button:disabled,
     .game-event-sequence {
         width: 26px;
         height: 26px;
+    }
+}
+
+@media (max-width: 280px) {
+    .history-filter {
+        flex-basis: 100%;
+    }
+
+    .history-section {
+        padding: 14px;
     }
 }
 
