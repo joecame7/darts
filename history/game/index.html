@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Details - Darts</title>
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body class="content-page game-detail-page">
+  <header class="site-header">
+    <a class="site-brand" href="../../">Darts</a>
+    <div class="account-nav">
+      <span class="account-nav-name" id="detail-account-name"></span>
+      <button class="text-button" id="detail-sign-out" type="button" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main class="content-shell game-detail-shell">
+    <a class="back-link" href="../">&larr; Back to history</a>
+    <p class="page-message" id="detail-message" role="status" aria-live="polite">Loading game details&hellip;</p>
+
+    <section class="empty-state" id="detail-signed-out" hidden>
+      <h1>Sign in to view this game</h1>
+      <p>Tracked game details are private to the account that recorded them.</p>
+      <a class="primary-button button-link" href="../../">Go to sign in</a>
+    </section>
+
+    <section class="empty-state" id="detail-unavailable" hidden>
+      <h1 id="detail-unavailable-title">Game unavailable</h1>
+      <p id="detail-unavailable-text">The link is invalid, the game no longer exists, or it belongs to another account.</p>
+      <a class="secondary-button button-link" id="detail-unavailable-link" href="../">Return to history</a>
+    </section>
+
+    <article class="game-detail" id="game-detail" hidden>
+      <header class="game-detail-hero">
+        <div>
+          <p class="section-label">Tracked game</p>
+          <h1 id="game-detail-title">Cricket</h1>
+          <p class="game-detail-result" id="game-detail-result"></p>
+        </div>
+        <span class="status-badge" id="game-detail-status"></span>
+      </header>
+
+      <div class="game-detail-actions" id="game-detail-actions"></div>
+
+      <section class="history-section game-score-section" aria-labelledby="score-heading">
+        <div class="history-section-heading">
+          <div>
+            <p class="section-label">Score</p>
+            <h2 id="score-heading">Final scoreboard</h2>
+          </div>
+        </div>
+        <div class="game-scoreboard">
+          <div>
+            <span id="detail-player-one-name">Player 1</span>
+            <strong id="detail-player-one-score">0</strong>
+          </div>
+          <span aria-hidden="true">-</span>
+          <div>
+            <span id="detail-player-two-name">Player 2</span>
+            <strong id="detail-player-two-score">0</strong>
+          </div>
+        </div>
+
+        <dl class="game-facts">
+          <div>
+            <dt>Started</dt>
+            <dd><time id="detail-started-at"></time></dd>
+          </div>
+          <div>
+            <dt>Duration</dt>
+            <dd id="detail-duration">Not available</dd>
+          </div>
+          <div>
+            <dt>Opponent type</dt>
+            <dd id="detail-opponent-type">Player</dd>
+          </div>
+          <div>
+            <dt>Rules</dt>
+            <dd id="detail-rules">Cricket v1</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="history-section" id="detail-scorecard-section" aria-labelledby="scorecard-heading">
+        <div class="history-section-heading">
+          <div>
+            <p class="section-label">Replayed from saved marks</p>
+            <h2 id="scorecard-heading">Cricket scorecard</h2>
+          </div>
+        </div>
+        <div class="history-table-scroll" role="region" aria-label="Cricket scorecard table" tabindex="0">
+          <table class="game-detail-scorecard">
+            <caption class="visually-hidden">Saved Cricket marks for both players</caption>
+            <thead>
+              <tr>
+                <th scope="col" id="detail-scorecard-player-one">Player 1</th>
+                <th scope="col">Target</th>
+                <th scope="col" id="detail-scorecard-player-two">Player 2</th>
+              </tr>
+            </thead>
+            <tbody id="detail-scorecard-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="history-warning" id="detail-integrity-warning" aria-labelledby="integrity-heading" hidden>
+        <h2 id="integrity-heading">Some saved data could not be verified</h2>
+        <p>The page is showing the last safely replayed score. The original record has not been changed.</p>
+        <ul id="detail-integrity-list"></ul>
+      </section>
+
+      <section class="history-section" id="detail-timeline-section" aria-labelledby="timeline-heading">
+        <div class="history-section-heading">
+          <div>
+            <p class="section-label">Chronological replay</p>
+            <h2 id="timeline-heading">Mark timeline</h2>
+          </div>
+          <span class="history-data-note" id="detail-timeline-count"></span>
+        </div>
+        <ol class="game-event-timeline" id="detail-event-timeline"></ol>
+        <p class="history-inline-empty" id="detail-timeline-empty" hidden>No marks were recorded for this game.</p>
+      </section>
+    </article>
+  </main>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.2"></script>
+  <script defer src="../../supabase-config.js"></script>
+  <script defer src="../../supabase-client.js"></script>
+  <script defer src="../../cricket/cricket-engine.js"></script>
+  <script defer src="../history-data.js"></script>
+  <script defer src="game.js"></script>
+</body>
+</html>

@@ -6,7 +6,7 @@
   <title>Game History - Darts</title>
   <link rel="stylesheet" href="../style.css">
 </head>
-<body class="content-page">
+<body class="content-page history-page">
   <header class="site-header">
     <a class="site-brand" href="../">Darts</a>
     <div class="account-nav">
@@ -15,18 +15,24 @@
     </div>
   </header>
 
-  <main class="content-shell">
+  <main class="content-shell history-shell">
     <a class="back-link" href="../">&larr; Back to games</a>
     <p class="section-label">Your account</p>
-    <h1>Game history</h1>
-    <p class="content-intro">Completed and in-progress tracked games will appear here. Guest games are never included.</p>
+    <h1>History and statistics</h1>
+    <p class="content-intro">Review tracked games, compare your opponent records, and see the Cricket marks saved by your scorecard.</p>
 
-    <p class="page-message" id="history-message" role="status" aria-live="polite">Loading your games…</p>
+    <p class="page-message" id="history-message" role="status" aria-live="polite">Loading your games&hellip;</p>
 
     <section class="empty-state" id="signed-out-history" hidden>
       <h2>Sign in to see your history</h2>
       <p>Your game records are private and can only be viewed while you are signed in.</p>
       <a class="primary-button button-link" href="../">Go to sign in</a>
+    </section>
+
+    <section class="empty-state" id="unavailable-history" hidden>
+      <h2>History is unavailable</h2>
+      <p>The account service or history tools could not be loaded. Try refreshing the page.</p>
+      <a class="secondary-button button-link" href="./">Refresh history</a>
     </section>
 
     <section class="empty-state" id="empty-history" hidden>
@@ -35,12 +41,99 @@
       <a class="primary-button button-link" href="../cricket/">Play tracked Cricket</a>
     </section>
 
-    <ul class="history-list" id="history-list" aria-label="Saved games"></ul>
+    <div class="history-content" id="history-content" hidden>
+      <section class="history-section" aria-labelledby="overview-heading">
+        <div class="history-section-heading">
+          <div>
+            <p class="section-label">All-time Cricket</p>
+            <h2 id="overview-heading">Overview</h2>
+          </div>
+          <span class="history-data-note">Completed tracked games</span>
+        </div>
+
+        <dl class="history-stat-grid">
+          <div class="history-stat-card">
+            <dt>Games completed</dt>
+            <dd id="stat-games-played">0</dd>
+          </div>
+          <div class="history-stat-card">
+            <dt>Record</dt>
+            <dd id="stat-record">0-0-0</dd>
+            <dd class="history-stat-detail">Wins-Losses-Draws</dd>
+          </div>
+          <div class="history-stat-card">
+            <dt>Win percentage</dt>
+            <dd id="stat-win-rate">0%</dd>
+          </div>
+          <div class="history-stat-card">
+            <dt>Average final points</dt>
+            <dd id="stat-average-points">0</dd>
+          </div>
+        </dl>
+        <p class="history-lifecycle-summary" id="history-lifecycle-summary"></p>
+      </section>
+
+      <section class="history-section" aria-labelledby="targets-heading">
+        <div class="history-section-heading">
+          <div>
+            <p class="section-label">Scorecard input</p>
+            <h2 id="targets-heading">Target performance</h2>
+          </div>
+        </div>
+        <div class="history-table-scroll" role="region" aria-label="Target statistics table" tabindex="0">
+          <table class="target-stats-table">
+            <caption class="visually-hidden">Your recorded Cricket marks and points by target</caption>
+            <thead>
+              <tr>
+                <th scope="col">Target</th>
+                <th scope="col">Recorded marks</th>
+                <th scope="col">Scoring marks</th>
+                <th scope="col">Points</th>
+              </tr>
+            </thead>
+            <tbody id="target-stats-body"></tbody>
+          </table>
+        </div>
+        <p class="history-data-note" id="target-stats-note">These are scorecard taps, not physical-dart accuracy.</p>
+      </section>
+
+      <section class="history-section" aria-labelledby="opponents-heading">
+        <div class="history-section-heading">
+          <div>
+            <p class="section-label">Head to head</p>
+            <h2 id="opponents-heading">Opponent records</h2>
+          </div>
+          <a class="text-link" href="../players/">Manage players</a>
+        </div>
+        <ul class="opponent-record-list" id="opponent-record-list"></ul>
+        <p class="history-inline-empty" id="opponent-record-empty" hidden>Complete a game to start an opponent record.</p>
+      </section>
+
+      <section class="history-section" aria-labelledby="games-heading">
+        <div class="history-section-heading history-games-heading">
+          <div>
+            <p class="section-label">Saved privately</p>
+            <h2 id="games-heading">Games</h2>
+          </div>
+          <div class="history-filters" role="group" aria-label="Filter game history">
+            <button class="history-filter is-active" type="button" data-status="all" aria-pressed="true">All</button>
+            <button class="history-filter" type="button" data-status="completed" aria-pressed="false">Completed</button>
+            <button class="history-filter" type="button" data-status="in_progress" aria-pressed="false">Active</button>
+            <button class="history-filter" type="button" data-status="abandoned" aria-pressed="false">Abandoned</button>
+          </div>
+        </div>
+        <p class="history-list-summary" id="history-list-summary" aria-live="polite"></p>
+        <ul class="history-list" id="history-list" aria-label="Saved games"></ul>
+        <p class="history-inline-empty" id="filtered-history-empty" hidden>No games match this filter.</p>
+      </section>
+    </div>
   </main>
 
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.2"></script>
   <script defer src="../supabase-config.js"></script>
   <script defer src="../supabase-client.js"></script>
+  <script defer src="../cricket/cricket-engine.js"></script>
+  <script defer src="history-data.js"></script>
   <script defer src="history.js"></script>
 </body>
 </html>
