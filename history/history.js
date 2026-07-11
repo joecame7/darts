@@ -37,11 +37,23 @@
       const title = document.createElement('h2');
       title.textContent = formatGameType(game.game_type);
       const meta = document.createElement('p');
-      const players = [...(game.game_players || [])]
-        .sort((a, b) => a.player_order - b.player_order)
-        .map((player) => player.display_name)
-        .join(' vs ');
-      meta.textContent = `${players || 'Players not recorded'} · ${formatDate(game.started_at)}`;
+      const orderedPlayers = [...(game.game_players || [])]
+        .sort((a, b) => a.player_order - b.player_order);
+      const players = orderedPlayers.map((player) => player.display_name).join(' vs ');
+      const winnerResult = (game.game_results || []).find((result) => result.is_winner);
+      const winnerPlayer = winnerResult
+        ? (game.game_players || []).find((player) => player.id === winnerResult.game_player_id)
+        : null;
+      const scoreSummary = orderedPlayers
+        .map((player) => (game.game_results || []).find((result) => result.game_player_id === player.id)?.final_score)
+        .filter((score) => Number.isInteger(score));
+      const scoreText = scoreSummary.length === orderedPlayers.length && scoreSummary.length > 0
+        ? `, ${scoreSummary.join('-')}`
+        : '';
+      const resultSummary = game.status === 'completed'
+        ? (winnerPlayer ? `${winnerPlayer.display_name} won${scoreText}` : ((game.game_results || []).length ? `Draw${scoreText}` : 'Completed'))
+        : game.status.replace('_', ' ');
+      meta.textContent = `${players || 'Players not recorded'} · ${resultSummary} · ${formatDate(game.started_at)}`;
       details.append(title, meta);
 
       const status = document.createElement('span');
@@ -73,7 +85,7 @@
 
       const result = await service.client
         .from('games')
-        .select('id, game_type, status, started_at, completed_at, game_players(display_name, player_order)')
+        .select('id, game_type, status, started_at, completed_at, game_players(id, display_name, player_order), game_results(game_player_id, final_score, is_winner)')
         .order('started_at', { ascending: false })
         .range(0, 49);
       if (result.error) throw result.error;

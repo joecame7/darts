@@ -26,8 +26,8 @@
 
   function fallbackDisplayName(user) {
     const metadataName = user?.user_metadata?.display_name?.trim();
-    if (metadataName) return metadataName;
-    return user?.email?.split('@')[0] || 'Player';
+    const candidate = metadataName || user?.email?.split('@')[0]?.trim() || 'Player';
+    return candidate.slice(0, 50) || 'Player';
   }
 
   async function getOrCreateProfile(user) {

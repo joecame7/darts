@@ -20,6 +20,7 @@
   const openSignInButton = document.getElementById('open-sign-in');
   const openSignUpButton = document.getElementById('open-sign-up');
   const signOutButton = document.getElementById('sign-out-button');
+  const trackedGamesSection = document.getElementById('tracked-games-section');
 
   let mode = 'sign-in';
   let renderVersion = 0;
@@ -84,6 +85,7 @@
     openSignUpButton.hidden = signedIn;
     accountNavName.hidden = !signedIn;
     signOutButton.hidden = !signedIn;
+    trackedGamesSection.hidden = !signedIn;
 
     if (!user) {
       accountNavName.textContent = '';

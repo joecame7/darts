@@ -26,7 +26,7 @@
       <div>
         <p class="section-label">Optional account</p>
         <h2 id="account-card-title">Save your progress over time</h2>
-        <p>Sign in to unlock game history and statistics as tracked game modes are added.</p>
+        <p>Sign in to save regular opponents and unlock game history and statistics as tracked game modes are added.</p>
       </div>
       <div class="account-card-actions">
         <button class="primary-button" id="card-sign-up" type="button">Create account</button>
@@ -40,10 +40,32 @@
         <h2 id="welcome-title">Welcome back</h2>
         <p id="signed-in-email"></p>
       </div>
-      <a class="primary-button button-link" href="history/">View game history</a>
+      <div class="account-card-actions">
+        <a class="primary-button button-link" href="players/">Manage players</a>
+        <a class="secondary-button button-link" href="history/">View game history</a>
+      </div>
     </section>
 
     <p class="page-message" id="page-message" role="status" aria-live="polite"></p>
+
+    <section class="tracked-games-section" id="tracked-games-section" aria-labelledby="tracked-play-heading" hidden>
+      <div class="section-heading">
+        <div>
+          <p class="section-label">Your account</p>
+          <h2 id="tracked-play-heading">Play and save</h2>
+        </div>
+        <span class="privacy-pill tracked-pill">Saved privately</span>
+      </div>
+      <nav class="mode-grid" aria-label="Tracked game modes">
+        <a class="mode-card tracked-mode-card" href="cricket/">
+          <span>
+            <span class="mode-title">Cricket</span>
+            <span class="mode-detail">Choose an opponent, resume unfinished games, and save the result to your history.</span>
+          </span>
+          <span class="mode-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+      </nav>
+    </section>
 
     <section aria-labelledby="play-heading">
       <div class="section-heading">

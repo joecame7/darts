@@ -2,71 +2,173 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-  <title>Darts Scoring - Cricket</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracked Cricket - Darts</title>
   <link rel="stylesheet" href="../style.css">
 </head>
-<body class="game-page" data-asset-base="../">
-  <table>
-    <colgroup>
-      <col class="player-column">
-      <col class="target-column">
-      <col class="player-column">
-    </colgroup>
-    <thead>
-      <tr>
-          <th>Player 1</th>
-          <th id="undo-btn-container">
-              <img id="undo-btn" src="../undo.png" alt="Undo" />
-          </th>
-          <th>Player 2</th>
-      </tr>
-      <!-- Second Row: Player Scores -->
-      <tr>
-          <th id="p1-score">0</th>
-          <th></th>
-          <th id="p2-score">0</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Repeat this structure for each row -->
-      <tr>
-        <td></td>
-        <td>20</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>19</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>18</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>17</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>16</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>15</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>Bull</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <script src="../script.js"></script>
+<body class="tracked-cricket-page">
+  <header class="game-toolbar">
+    <a class="game-toolbar-link" href="../">&larr; Darts</a>
+    <div class="game-toolbar-title">
+      <span>Cricket</span>
+      <small>Tracked game</small>
+    </div>
+    <div class="game-toolbar-actions">
+      <a class="game-toolbar-link" href="../history/">History</a>
+      <span class="save-status" id="save-status" data-state="idle">Not started</span>
+    </div>
+  </header>
+
+  <main class="tracked-cricket-shell">
+    <section class="game-setup-panel" id="cricket-loading">
+      <p class="section-label">Tracked game</p>
+      <h1>Loading Cricket</h1>
+      <p>Checking your account and saved games...</p>
+    </section>
+
+    <section class="game-setup-panel" id="account-required" hidden>
+      <p class="section-label">Account required</p>
+      <h1>Sign in to track Cricket</h1>
+      <p>This version saves the game to your private history. You can still use the original scoreboard without an account.</p>
+      <div class="setup-actions">
+        <a class="primary-button button-link" href="../">Go to sign in</a>
+        <a class="secondary-button button-link" href="../cricket_legacy/">Play as guest</a>
+      </div>
+    </section>
+
+    <section class="game-setup-panel" id="cricket-setup" hidden>
+      <p class="section-label">New tracked game</p>
+      <h1>Set up Cricket</h1>
+      <p class="setup-intro">You will play on the left. Choose a saved opponent or enter someone for this game only.</p>
+
+      <section class="resume-game-card" id="resume-game-card" hidden aria-labelledby="resume-game-title">
+        <div>
+          <p class="section-label">Unfinished game</p>
+          <h2 id="resume-game-title">Continue your previous game?</h2>
+          <p id="resume-game-detail"></p>
+        </div>
+        <div class="setup-actions">
+          <button class="primary-button" id="resume-game-button" type="button">Resume game</button>
+          <button class="text-button" id="discard-resume-button" type="button">Abandon it</button>
+        </div>
+      </section>
+
+      <form id="cricket-setup-form">
+        <div class="setup-player-preview">
+          <span class="player-avatar" id="account-player-avatar" aria-hidden="true">P</span>
+          <div>
+            <span class="setup-player-label">Player 1 · Your account</span>
+            <strong id="account-player-name">Player</strong>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="opponent-type">Opponent type</label>
+          <select id="opponent-type">
+            <option value="saved">Saved player</option>
+            <option value="guest">One-time guest</option>
+          </select>
+        </div>
+
+        <div class="form-field" id="saved-opponent-field">
+          <label for="saved-opponent">Saved opponent</label>
+          <select id="saved-opponent"></select>
+          <p class="field-help">Manage regular opponents from your account.</p>
+        </div>
+
+        <div class="form-field" id="guest-opponent-field" hidden>
+          <label for="guest-opponent-name">Guest name</label>
+          <input id="guest-opponent-name" type="text" maxlength="50" autocomplete="off" placeholder="For example, Alex">
+        </div>
+
+        <p class="auth-message" id="setup-message" role="status" aria-live="polite"></p>
+        <div class="setup-actions">
+          <button class="primary-button" id="start-game-button" type="submit">Start tracked game</button>
+          <a class="secondary-button button-link" href="../players/">Manage saved players</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="tracked-game-board" id="cricket-game" hidden aria-label="Cricket scoreboard">
+      <h1 class="visually-hidden">Cricket scoreboard</h1>
+      <table class="tracked-cricket-table">
+        <caption class="visually-hidden">Cricket scorecard for two players, with targets from 20 to Bull.</caption>
+        <colgroup>
+          <col class="tracked-player-column">
+          <col class="tracked-target-column">
+          <col class="tracked-player-column">
+        </colgroup>
+        <thead>
+          <tr>
+            <th id="p1-name" scope="col">Player 1</th>
+            <th class="tracked-undo-cell" scope="col" rowspan="2">
+              <span class="visually-hidden">Target. </span>
+              <button class="tracked-undo-button" id="tracked-undo-button" type="button" aria-label="Undo last mark" disabled>
+                <img src="../undo.png" alt="">
+              </button>
+            </th>
+            <th id="p2-name" scope="col">Player 2</th>
+          </tr>
+          <tr class="tracked-score-row">
+            <td id="p1-score" headers="p1-name">0</td>
+            <td id="p2-score" headers="p2-name">0</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><button class="mark-button" data-player="p1" data-segment="20" type="button"></button></td><th scope="row">20</th><td><button class="mark-button" data-player="p2" data-segment="20" type="button"></button></td></tr>
+          <tr><td><button class="mark-button" data-player="p1" data-segment="19" type="button"></button></td><th scope="row">19</th><td><button class="mark-button" data-player="p2" data-segment="19" type="button"></button></td></tr>
+          <tr><td><button class="mark-button" data-player="p1" data-segment="18" type="button"></button></td><th scope="row">18</th><td><button class="mark-button" data-player="p2" data-segment="18" type="button"></button></td></tr>
+          <tr><td><button class="mark-button" data-player="p1" data-segment="17" type="button"></button></td><th scope="row">17</th><td><button class="mark-button" data-player="p2" data-segment="17" type="button"></button></td></tr>
+          <tr><td><button class="mark-button" data-player="p1" data-segment="16" type="button"></button></td><th scope="row">16</th><td><button class="mark-button" data-player="p2" data-segment="16" type="button"></button></td></tr>
+          <tr><td><button class="mark-button" data-player="p1" data-segment="15" type="button"></button></td><th scope="row">15</th><td><button class="mark-button" data-player="p2" data-segment="15" type="button"></button></td></tr>
+          <tr><td><button class="mark-button" data-player="p1" data-segment="Bull" type="button"></button></td><th scope="row">Bull</th><td><button class="mark-button" data-player="p2" data-segment="Bull" type="button"></button></td></tr>
+        </tbody>
+      </table>
+      <p class="visually-hidden" id="score-announcement" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <footer class="tracked-game-footer">
+        <span id="game-rule-hint">Close every target and finish strictly ahead to win.</span>
+        <button class="text-button" id="abandon-game-button" type="button">Abandon game</button>
+      </footer>
+    </section>
+  </main>
+
+  <dialog class="auth-dialog result-dialog" id="winner-dialog" aria-labelledby="winner-title">
+    <div class="result-dialog-body">
+      <p class="section-label">Automatic result detected</p>
+      <h2 id="winner-title">Player wins!</h2>
+      <p id="winner-detail"></p>
+      <p class="auth-message" id="winner-save-message" role="status" aria-live="polite"></p>
+
+      <div class="result-actions" id="winner-confirm-actions">
+        <button class="primary-button" id="confirm-win-button" type="button">Confirm and save result</button>
+        <button class="secondary-button" id="undo-winning-mark-button" type="button">Undo last mark</button>
+      </div>
+      <div class="result-actions" id="winner-saved-actions" hidden>
+        <button class="primary-button" id="new-game-button" type="button">Start another game</button>
+        <a class="secondary-button button-link" href="../history/">View game history</a>
+      </div>
+      <button class="text-button" id="retry-save-button" type="button" hidden>Retry saving result</button>
+    </div>
+  </dialog>
+
+  <dialog class="auth-dialog result-dialog" id="abandon-dialog" aria-labelledby="abandon-title">
+    <div class="result-dialog-body">
+      <p class="section-label">End tracked game</p>
+      <h2 id="abandon-title">Abandon this game?</h2>
+      <p>The game will remain in your history as abandoned.</p>
+      <p class="auth-message" id="abandon-message" role="status" aria-live="polite"></p>
+      <div class="result-actions">
+        <button class="secondary-button" id="cancel-abandon-button" type="button">Keep playing</button>
+        <button class="primary-button danger-button" id="confirm-abandon-button" type="button">Abandon game</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.2"></script>
+  <script defer src="../supabase-config.js"></script>
+  <script defer src="../supabase-client.js"></script>
+  <script defer src="cricket-engine.js"></script>
+  <script defer src="cricket.js"></script>
 </body>
 </html>

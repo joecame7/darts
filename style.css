@@ -4,6 +4,18 @@
     box-sizing: border-box;
 }
 
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -267,6 +279,20 @@ button:disabled,
     gap: 12px;
 }
 
+.tracked-games-section {
+    margin-bottom: 42px;
+}
+
+.tracked-mode-card {
+    border-color: #b9d4c7;
+    background: #fbfefc;
+}
+
+.tracked-pill {
+    color: #176b49;
+    background: #e1f3ea;
+}
+
 .mode-card {
     display: flex;
     align-items: center;
@@ -490,6 +516,611 @@ button:disabled,
     text-transform: capitalize;
 }
 
+.add-player-card {
+    margin-bottom: 38px;
+}
+
+.inline-player-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.inline-player-form .form-field {
+    flex: 1;
+    margin: 0;
+}
+
+.inline-player-form .primary-button {
+    flex: 0 0 auto;
+}
+
+.players-section {
+    margin-top: 34px;
+}
+
+.count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    border-radius: 999px;
+    color: #246b52;
+    background: #e4eee9;
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.compact-empty-state {
+    padding: 20px;
+}
+
+.compact-empty-state h2 {
+    font-size: 1.1rem;
+}
+
+.compact-empty-state p {
+    margin-bottom: 0;
+}
+
+.saved-player-list {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.saved-player-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 18px;
+    border: 1px solid #dedbd4;
+    border-radius: 11px;
+    background: #ffffff;
+}
+
+.saved-player-identity,
+.saved-player-actions {
+    display: flex;
+    align-items: center;
+}
+
+.saved-player-identity {
+    min-width: 0;
+    gap: 13px;
+}
+
+.saved-player-identity > div {
+    min-width: 0;
+}
+
+.saved-player-identity h3,
+.saved-player-identity p {
+    margin: 0;
+}
+
+.saved-player-identity h3 {
+    overflow: hidden;
+    color: #111827;
+    font-size: 1.05rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.saved-player-identity p {
+    margin-top: 3px;
+    color: #6b7280;
+    font-size: 0.84rem;
+}
+
+.player-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #246b52;
+    font-weight: 800;
+}
+
+.saved-player-actions {
+    flex: 0 0 auto;
+    gap: 4px;
+}
+
+.small-button {
+    min-height: 36px;
+    padding: 7px 10px;
+    font-size: 0.86rem;
+}
+
+.archived-player-item {
+    background: #f4f3ef;
+}
+
+.archived-player-item .player-avatar {
+    color: #58616b;
+    background: #d9d8d2;
+}
+
+.dialog-form {
+    padding: 4px 24px 26px;
+}
+
+.tracked-cricket-page {
+    min-height: 100vh;
+    min-height: 100svh;
+    color: #1f2933;
+    background: #f7f7f4;
+}
+
+.tracked-cricket-page.game-active {
+    overflow: hidden;
+}
+
+.game-toolbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 18px;
+    min-height: 62px;
+    padding: 10px max(18px, calc((100vw - 1120px) / 2));
+    border-bottom: 1px solid #dedbd4;
+    background: #ffffff;
+}
+
+.game-toolbar-link {
+    color: #246b52;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+.game-toolbar-title {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: #111827;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.game-toolbar-title small {
+    margin-top: 3px;
+    color: #6b7280;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.game-toolbar-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.save-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    color: #5d6670;
+    background: #efefeb;
+    font-size: 0.74rem;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.save-status[data-state="saving"] {
+    color: #72570f;
+    background: #fff3c6;
+}
+
+.save-status[data-state="saved"] {
+    color: #176b49;
+    background: #e1f3ea;
+}
+
+.save-status[data-state="error"] {
+    color: #a12622;
+    background: #fbe6e4;
+}
+
+.tracked-cricket-shell {
+    min-height: calc(100vh - 62px);
+    min-height: calc(100svh - 62px);
+}
+
+.game-setup-panel {
+    width: min(calc(100% - 40px), 600px);
+    margin: 0 auto;
+    padding: 52px 0 70px;
+    text-align: left;
+}
+
+.game-setup-panel > h1 {
+    margin: 0;
+    color: #111827;
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    line-height: 1.05;
+}
+
+.game-setup-panel > p:not(.section-label),
+.setup-intro {
+    color: #59616c;
+    line-height: 1.55;
+}
+
+#cricket-setup-form {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid #dedbd4;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.setup-player-preview {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 22px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eceae5;
+}
+
+.setup-player-preview > div {
+    min-width: 0;
+}
+
+.setup-player-preview strong,
+.setup-player-label {
+    display: block;
+}
+
+.setup-player-preview strong {
+    overflow: hidden;
+    margin-top: 3px;
+    color: #111827;
+    font-size: 1.08rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.setup-player-label {
+    color: #6b7280;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.form-field select {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 36px 10px 12px;
+    border: 1px solid #c8c8c2;
+    border-radius: 8px;
+    color: #111827;
+    background: #ffffff;
+    font: inherit;
+    outline: none;
+}
+
+.form-field select:focus {
+    border-color: #246b52;
+    box-shadow: 0 0 0 3px rgba(36, 107, 82, 0.13);
+}
+
+.setup-actions,
+.result-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.resume-game-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+    margin: 24px 0;
+    padding: 20px;
+    border: 1px solid #e2c774;
+    border-radius: 11px;
+    background: #fff8dc;
+}
+
+.resume-game-card h2,
+.resume-game-card p {
+    margin: 0;
+}
+
+.resume-game-card h2 {
+    color: #292d32;
+    font-size: 1.18rem;
+}
+
+.resume-game-card p:not(.section-label) {
+    margin-top: 7px;
+    color: #66592f;
+    line-height: 1.45;
+}
+
+.resume-game-card .setup-actions {
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.tracked-game-board {
+    --tracked-footer-height: 46px;
+    display: flex;
+    height: calc(100vh - 62px);
+    height: calc(100svh - 62px);
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.tracked-cricket-table {
+    --tracked-name-height: clamp(42px, 7vh, 58px);
+    --tracked-score-height: clamp(36px, 6vh, 48px);
+    width: min(96vw, 600px);
+    height: calc(100% - var(--tracked-footer-height) - 12px);
+    margin: 6px auto;
+    border: 2px solid #d6d5d0;
+    border-collapse: collapse;
+    table-layout: fixed;
+    background: #ffffff;
+}
+
+.tracked-cricket-table .tracked-player-column {
+    width: 38%;
+}
+
+.tracked-cricket-table .tracked-target-column {
+    width: 24%;
+}
+
+.tracked-cricket-table thead {
+    border-bottom: 2px solid #d6d5d0;
+}
+
+.tracked-cricket-table thead tr:first-child {
+    height: var(--tracked-name-height);
+}
+
+.tracked-cricket-table .tracked-score-row {
+    height: var(--tracked-score-height);
+}
+
+.tracked-cricket-table tbody tr {
+    height: calc((100% - var(--tracked-name-height) - var(--tracked-score-height)) / 7);
+}
+
+.tracked-cricket-table th,
+.tracked-cricket-table td {
+    width: auto;
+    height: auto;
+    padding: 0;
+    border: 1px solid #dfded9;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.tracked-cricket-table thead th,
+.tracked-cricket-table thead td {
+    padding: 0 7px;
+    color: #111827;
+    background: #f4f4f1;
+    font-size: clamp(0.86rem, 3vw, 1.05rem);
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-height: 500px) {
+    .tracked-cricket-page.game-active .game-toolbar {
+        min-height: 44px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    .tracked-cricket-page.game-active .game-toolbar-title small,
+    .tracked-cricket-page.game-active #game-rule-hint {
+        display: none;
+    }
+
+    .tracked-cricket-page.game-active .tracked-cricket-shell,
+    .tracked-cricket-page.game-active .tracked-game-board {
+        min-height: calc(100vh - 44px);
+        min-height: calc(100svh - 44px);
+    }
+
+    .tracked-cricket-page.game-active .tracked-game-board {
+        --tracked-footer-height: 32px;
+        height: calc(100vh - 44px);
+        height: calc(100svh - 44px);
+    }
+
+    .tracked-cricket-page.game-active .tracked-cricket-table {
+        --tracked-name-height: 30px;
+        --tracked-score-height: 26px;
+        min-height: 300px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .tracked-cricket-page.game-active .mark-button {
+        min-height: 32px;
+    }
+
+    .tracked-cricket-page.game-active .mark-button img {
+        width: clamp(24px, 10vh, 36px);
+        height: clamp(24px, 10vh, 36px);
+    }
+
+    .tracked-cricket-page.game-active .tracked-game-footer {
+        justify-content: flex-end;
+    }
+}
+
+.tracked-cricket-table .tracked-score-row th,
+.tracked-cricket-table .tracked-score-row td {
+    font-size: clamp(1.15rem, 5vw, 1.65rem);
+    font-weight: 500;
+}
+
+.tracked-cricket-table tbody th {
+    color: #333b44;
+    background: #f7f7f4;
+    font-size: clamp(1rem, 4vw, 1.3rem);
+}
+
+.tracked-cricket-table .tracked-undo-cell {
+    position: relative;
+    padding: 0;
+}
+
+.tracked-undo-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    border: 0;
+    cursor: pointer;
+    background: transparent;
+}
+
+.tracked-undo-button img {
+    width: clamp(27px, 5vh, 38px);
+    height: auto;
+}
+
+.tracked-undo-button:focus-visible {
+    outline: 3px solid rgba(36, 107, 82, 0.28);
+    outline-offset: -3px;
+}
+
+.mark-button {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 42px;
+    padding: 0;
+    border: 0;
+    cursor: pointer;
+    background: #ffffff;
+    touch-action: manipulation;
+}
+
+.mark-button:hover,
+.mark-button:focus-visible {
+    outline: 3px solid rgba(36, 107, 82, 0.22);
+    outline-offset: -3px;
+}
+
+.mark-button.target-closed {
+    background: #f0f8f4;
+}
+
+.mark-button.target-blocked {
+    background: #f0f0ed;
+}
+
+.mark-button:disabled {
+    cursor: default;
+    opacity: 1;
+}
+
+.mark-button img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: clamp(30px, 8vh, 52px);
+    height: clamp(30px, 8vh, 52px);
+    max-width: 72%;
+    max-height: 72%;
+    object-fit: contain;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+.tracked-game-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: min(96vw, 600px);
+    min-height: var(--tracked-footer-height);
+    margin: 0 auto;
+    color: #6b7280;
+    font-size: 0.76rem;
+    text-align: left;
+}
+
+.tracked-game-footer .text-button {
+    flex: 0 0 auto;
+    color: #9a2d28;
+    font-size: 0.8rem;
+}
+
+.result-dialog {
+    max-width: 460px;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100svh - 24px);
+    overflow-y: auto;
+}
+
+.result-dialog-body {
+    padding: 26px;
+    text-align: left;
+}
+
+.result-dialog-body h2 {
+    margin: 0;
+    color: #111827;
+    font-size: 1.75rem;
+}
+
+.result-dialog-body > p:not(.section-label, .auth-message) {
+    margin: 10px 0 0;
+    color: #59616c;
+    line-height: 1.5;
+}
+
+.result-dialog .auth-message {
+    margin: 18px 0;
+}
+
+.result-actions {
+    align-items: stretch;
+    flex-direction: column;
+}
+
+.danger-button {
+    background: #a8342d;
+}
+
+.danger-button:hover,
+.danger-button:focus-visible {
+    background: #81251f;
+}
+
 .mode-title,
 .mode-detail {
     display: block;
@@ -574,7 +1205,7 @@ td {
     height: 80px; /* Fixed height */
     box-sizing: border-box;
 }
-  
+
 /* Images inside td */
 td img {
     position: absolute;
@@ -684,6 +1315,109 @@ th#undo-btn-container {
     .game-history-item {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .inline-player-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .saved-player-item {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .saved-player-identity,
+    .saved-player-identity > div {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .saved-player-actions {
+        width: 100%;
+    }
+
+    .saved-player-actions > * {
+        flex: 1;
+    }
+
+    .game-toolbar {
+        grid-template-columns: auto 1fr auto;
+        gap: 10px;
+        min-height: 56px;
+        padding: 7px 10px;
+    }
+
+    .game-toolbar-title {
+        justify-self: center;
+    }
+
+    .game-toolbar-actions {
+        gap: 6px;
+    }
+
+    .game-toolbar-actions .game-toolbar-link {
+        display: none;
+    }
+
+    .game-toolbar-link {
+        font-size: 0.86rem;
+    }
+
+    .save-status {
+        padding: 4px 7px;
+        font-size: 0.68rem;
+    }
+
+    .tracked-cricket-shell {
+        min-height: calc(100vh - 56px);
+        min-height: calc(100svh - 56px);
+    }
+
+    .game-setup-panel {
+        width: min(calc(100% - 28px), 600px);
+        padding: 34px 0 50px;
+    }
+
+    #cricket-setup-form {
+        padding: 18px;
+    }
+
+    .resume-game-card {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .resume-game-card .setup-actions {
+        flex-direction: row;
+    }
+
+    .setup-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .tracked-game-board {
+        --tracked-footer-height: 42px;
+        height: calc(100vh - 56px);
+        height: calc(100svh - 56px);
+    }
+
+    .tracked-cricket-table {
+        --tracked-name-height: clamp(40px, 6.5vh, 52px);
+        --tracked-score-height: clamp(34px, 5.5vh, 44px);
+        width: calc(100% - 10px);
+    }
+
+    .tracked-game-footer {
+        width: calc(100% - 14px);
+    }
+
+    #game-rule-hint {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     body.game-page {

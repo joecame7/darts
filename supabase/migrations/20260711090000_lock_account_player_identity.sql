@@ -1,5 +1,5 @@
--- Run this once if supabase/schema.sql was installed before this migration was
--- added. It prevents a game owner from attaching another account to a player.
+-- Upgrade projects installed before account-player identity locking was added.
+-- It prevents a game owner from attaching another account to a player.
 
 begin;
 

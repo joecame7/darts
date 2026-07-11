@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Players - Darts</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="content-page">
+  <header class="site-header">
+    <a class="site-brand" href="../">Darts</a>
+    <div class="account-nav">
+      <span class="account-nav-name" id="players-account-name"></span>
+      <button class="text-button" id="players-sign-out" type="button" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main class="content-shell">
+    <a class="back-link" href="../">&larr; Back to games</a>
+    <p class="section-label">Your account</p>
+    <h1>Saved players</h1>
+    <p class="content-intro">Add people you play regularly. They do not need an account, and only you can see them.</p>
+
+    <p class="page-message" id="players-message" role="status" aria-live="polite">Loading your players...</p>
+
+    <section class="empty-state" id="signed-out-players" hidden>
+      <h2>Sign in to manage players</h2>
+      <p>Saved opponents belong to your private account and are unavailable while signed out.</p>
+      <a class="primary-button button-link" href="../">Go to sign in</a>
+    </section>
+
+    <div id="players-content" hidden>
+      <section class="content-card add-player-card" aria-labelledby="add-player-title">
+        <h2 id="add-player-title">Add a player</h2>
+        <p>Use a name you will recognise when setting up future games.</p>
+        <form class="inline-player-form" id="add-player-form">
+          <div class="form-field">
+            <label for="new-player-name">Player name</label>
+            <input id="new-player-name" type="text" maxlength="50" autocomplete="off" placeholder="For example, Dad" required>
+          </div>
+          <button class="primary-button" id="add-player-submit" type="submit">Add player</button>
+        </form>
+      </section>
+
+      <section class="players-section" aria-labelledby="active-players-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Available for games</p>
+            <h2 id="active-players-title">Active players</h2>
+          </div>
+          <span class="count-badge" id="active-player-count">0</span>
+        </div>
+
+        <div class="empty-state compact-empty-state" id="empty-active-players" hidden>
+          <h2>No saved players yet</h2>
+          <p>Add someone above and they will become available when choosing an opponent.</p>
+        </div>
+        <ul class="saved-player-list" id="active-player-list" aria-label="Active saved players"></ul>
+      </section>
+
+      <section class="players-section" id="archived-players-section" aria-labelledby="archived-players-title" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Hidden from game setup</p>
+            <h2 id="archived-players-title">Archived players</h2>
+          </div>
+          <span class="count-badge" id="archived-player-count">0</span>
+        </div>
+        <ul class="saved-player-list" id="archived-player-list" aria-label="Archived saved players"></ul>
+      </section>
+    </div>
+  </main>
+
+  <dialog class="auth-dialog" id="edit-player-dialog" aria-labelledby="edit-player-title">
+    <div class="auth-dialog-header">
+      <div>
+        <p class="section-label">Saved player</p>
+        <h2 id="edit-player-title">Rename player</h2>
+      </div>
+      <button class="icon-button" id="close-edit-player" type="button" aria-label="Close">&times;</button>
+    </div>
+    <form class="dialog-form" id="edit-player-form">
+      <div class="form-field">
+        <label for="edit-player-name">Player name</label>
+        <input id="edit-player-name" type="text" maxlength="50" autocomplete="off" required>
+      </div>
+      <p class="auth-message" id="edit-player-message" role="status" aria-live="polite"></p>
+      <button class="primary-button full-width-button" id="edit-player-submit" type="submit">Save name</button>
+    </form>
+  </dialog>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.2"></script>
+  <script defer src="../supabase-config.js"></script>
+  <script defer src="../supabase-client.js"></script>
+  <script defer src="players.js"></script>
+</body>
+</html>
