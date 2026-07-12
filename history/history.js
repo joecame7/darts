@@ -197,9 +197,14 @@
   function renderOpponentStats(opponents) {
     opponentRecordList.replaceChildren();
     opponentRecordEmpty.hidden = opponents.length !== 0;
-    for (const opponent of opponents) {
+    opponents.forEach((opponent, index) => {
       const item = document.createElement('li');
-      item.className = 'opponent-record-card';
+      item.className = 'opponent-record-item';
+      item.dataset.opponentKey = opponent.key;
+      const card = document.createElement('article');
+      card.className = 'opponent-record-card';
+      const summary = document.createElement('div');
+      summary.className = 'opponent-record-summary';
 
       const identity = document.createElement('div');
       identity.className = 'opponent-record-identity';
@@ -219,21 +224,124 @@
       record.className = 'opponent-record-metrics';
       const recordGroup = document.createElement('div');
       const recordLabel = document.createElement('dt');
-      recordLabel.textContent = 'Record';
+      recordLabel.textContent = 'Your record';
       const recordValue = document.createElement('dd');
       recordValue.textContent = `${opponent.wins}-${opponent.losses}-${opponent.draws}`;
       recordGroup.append(recordLabel, recordValue);
       const rateGroup = document.createElement('div');
       const rateLabel = document.createElement('dt');
-      rateLabel.textContent = 'Win rate';
+      rateLabel.textContent = 'Your win rate';
       const rateValue = document.createElement('dd');
       rateValue.textContent = formatPercent(opponent.winRate);
       rateGroup.append(rateLabel, rateValue);
       record.append(recordGroup, rateGroup);
 
-      item.append(identity, record);
+      const panelId = `opponent-stats-panel-${index}`;
+      const toggleId = `opponent-stats-toggle-${index}`;
+      const headingId = `opponent-stats-heading-${index}`;
+      const toggle = document.createElement('button');
+      toggle.className = 'opponent-record-toggle';
+      toggle.id = toggleId;
+      toggle.type = 'button';
+      toggle.dataset.opponentName = opponent.displayName;
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-controls', panelId);
+      toggle.setAttribute('aria-label', `Show detailed statistics for ${opponent.displayName}`);
+      const toggleText = document.createElement('span');
+      toggleText.className = 'opponent-record-toggle-text';
+      toggleText.textContent = 'View stats';
+      const toggleIcon = document.createElement('span');
+      toggleIcon.className = 'opponent-record-toggle-icon';
+      toggleIcon.setAttribute('aria-hidden', 'true');
+      toggleIcon.textContent = '\u25be';
+      toggle.append(toggleText, toggleIcon);
+      summary.append(identity, record, toggle);
+
+      const panel = document.createElement('div');
+      panel.className = 'opponent-record-details';
+      panel.id = panelId;
+      panel.setAttribute('role', 'region');
+      panel.setAttribute('aria-labelledby', headingId);
+      panel.hidden = true;
+
+      const combinedGuests = opponent.key === 'one-time-guests';
+      const detailHeading = document.createElement('h4');
+      detailHeading.id = headingId;
+      detailHeading.textContent = combinedGuests
+        ? 'Combined one-time guest performance against you'
+        : `${opponent.displayName}'s performance against you`;
+
+      const detailMetrics = document.createElement('dl');
+      detailMetrics.className = 'opponent-detail-grid';
+      const metricValues = [
+        ['Opponent record', `${opponent.opponentWins}-${opponent.opponentLosses}-${opponent.opponentDraws}`, 'Wins-Losses-Draws'],
+        ['Opponent win rate', formatPercent(opponent.opponentWinRate), 'Verified games'],
+        ['Average final points', formatNumber(opponent.opponentAverageFinalPoints, 1), 'Per completed game'],
+        ['Highest final points', formatNumber(opponent.opponentHighestFinalPoints, 0), 'Single completed game'],
+      ];
+      for (const [labelText, valueText, captionText] of metricValues) {
+        const metric = document.createElement('div');
+        metric.className = 'opponent-detail-stat';
+        const label = document.createElement('dt');
+        label.textContent = labelText;
+        const value = document.createElement('dd');
+        value.textContent = valueText;
+        const caption = document.createElement('span');
+        caption.textContent = captionText;
+        metric.append(label, value, caption);
+        detailMetrics.append(metric);
+      }
+
+      const targetHeading = document.createElement('h4');
+      targetHeading.textContent = 'Opponent target performance';
+      const tableWrap = document.createElement('div');
+      tableWrap.className = 'opponent-target-table-wrap';
+      const table = document.createElement('table');
+      table.className = 'opponent-target-table';
+      const caption = document.createElement('caption');
+      caption.className = 'visually-hidden';
+      caption.textContent = combinedGuests
+        ? 'Combined one-time guest Cricket scorecard statistics against you'
+        : `${opponent.displayName}'s Cricket scorecard statistics against you`;
+      const head = document.createElement('thead');
+      const headingRow = document.createElement('tr');
+      for (const heading of ['Target', 'Marks', 'Scoring', 'Points']) {
+        const cell = document.createElement('th');
+        cell.scope = 'col';
+        cell.textContent = heading;
+        headingRow.append(cell);
+      }
+      head.append(headingRow);
+      const body = document.createElement('tbody');
+      for (const segment of historyData.segments) {
+        const target = opponent.targetStats[segment];
+        const row = document.createElement('tr');
+        const targetName = document.createElement('th');
+        targetName.scope = 'row';
+        targetName.textContent = segment;
+        const marks = document.createElement('td');
+        marks.textContent = formatNumber(target.marks, 0);
+        const scoringMarks = document.createElement('td');
+        scoringMarks.textContent = formatNumber(target.scoringMarks, 0);
+        const points = document.createElement('td');
+        points.textContent = formatNumber(target.points, 0);
+        row.append(targetName, marks, scoringMarks, points);
+        body.append(row);
+      }
+      table.append(caption, head, body);
+      tableWrap.append(table);
+
+      const note = document.createElement('p');
+      note.className = 'history-data-note opponent-detail-note';
+      note.textContent = combinedGuests
+        ? 'Combined from verified completed games against one-time guests. These are scorecard taps, not physical-dart accuracy.'
+        : 'Calculated from verified completed games against this opponent. These are scorecard taps, not physical-dart accuracy.';
+
+      panel.append(detailHeading, detailMetrics, targetHeading, tableWrap, note);
+      card.append(summary, panel);
+      item.append(card);
       opponentRecordList.append(item);
-    }
+    });
   }
 
   function renderGames() {
@@ -360,6 +468,23 @@
       setMessage(error?.message || 'Your game history could not be loaded.', 'error');
     }
   }
+
+  opponentRecordList.addEventListener('click', (event) => {
+    const toggle = event.target.closest('.opponent-record-toggle');
+    if (!toggle || !opponentRecordList.contains(toggle)) return;
+    const panel = document.getElementById(toggle.getAttribute('aria-controls'));
+    if (!panel) return;
+
+    const opening = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(opening));
+    toggle.setAttribute(
+      'aria-label',
+      `${opening ? 'Hide' : 'Show'} detailed statistics for ${toggle.dataset.opponentName}`,
+    );
+    const label = toggle.querySelector('.opponent-record-toggle-text');
+    if (label) label.textContent = opening ? 'Hide stats' : 'View stats';
+    panel.hidden = !opening;
+  });
 
   filterButtons.forEach((button) => {
     button.addEventListener('click', () => {

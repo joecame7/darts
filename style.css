@@ -547,8 +547,8 @@ button:disabled,
 
 .history-section-heading h2,
 .history-section-heading p,
-.opponent-record-card h3,
-.opponent-record-card p,
+.opponent-record-identity h3,
+.opponent-record-identity p,
 .game-history-link h3,
 .game-history-link p,
 .game-history-link time {
@@ -685,19 +685,31 @@ button:disabled,
     list-style: none;
 }
 
+.opponent-record-item {
+    min-width: 0;
+    max-width: 100%;
+}
+
 .opponent-record-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: block;
     width: 100%;
     min-width: 0;
     max-width: 100%;
     overflow: hidden;
-    gap: 22px;
-    padding: 16px;
     border: 1px solid #e5e4df;
     border-radius: 10px;
     background: #fafaf8;
+}
+
+.opponent-record-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    gap: 18px;
+    padding: 16px;
 }
 
 .opponent-record-identity {
@@ -729,7 +741,7 @@ button:disabled,
     font-weight: 800;
 }
 
-.opponent-record-card h3 {
+.opponent-record-identity h3 {
     overflow: hidden;
     color: #17231e;
     font-size: 1rem;
@@ -737,7 +749,7 @@ button:disabled,
     white-space: nowrap;
 }
 
-.opponent-record-card p {
+.opponent-record-identity p {
     overflow: hidden;
     margin-top: 4px;
     color: #68717b;
@@ -767,6 +779,153 @@ button:disabled,
     color: #26322d;
     font-size: 1rem;
     font-weight: 800;
+}
+
+.opponent-record-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid #c8d2cc;
+    border-radius: 999px;
+    cursor: pointer;
+    color: #246b52;
+    background: #ffffff;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 750;
+    white-space: nowrap;
+}
+
+.opponent-record-toggle:hover,
+.opponent-record-toggle:focus-visible {
+    border-color: #246b52;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(36, 107, 82, 0.13);
+}
+
+.opponent-record-toggle-icon {
+    transition: transform 160ms ease;
+}
+
+.opponent-record-toggle[aria-expanded="true"] .opponent-record-toggle-icon {
+    transform: rotate(180deg);
+}
+
+.opponent-record-details {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 18px 16px 16px;
+    border-top: 1px solid #e5e4df;
+    background: #ffffff;
+}
+
+.opponent-record-details > h4 {
+    margin: 0;
+    color: #17231e;
+    font-size: 1rem;
+}
+
+.opponent-record-details > h4:not(:first-child) {
+    margin-top: 22px;
+}
+
+.opponent-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin: 12px 0 0;
+}
+
+.opponent-detail-stat {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #e5e4df;
+    border-radius: 9px;
+    background: #f8f8f5;
+}
+
+.opponent-detail-stat dt {
+    color: #68717b;
+    font-size: 0.7rem;
+    font-weight: 750;
+    line-height: 1.25;
+}
+
+.opponent-detail-stat dd {
+    overflow: hidden;
+    margin: 6px 0 0;
+    color: #17231e;
+    font-size: 1.15rem;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.opponent-detail-stat span {
+    display: block;
+    margin-top: 4px;
+    color: #7a8189;
+    font-size: 0.66rem;
+    line-height: 1.25;
+}
+
+.opponent-target-table-wrap {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    margin-top: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e1dc;
+    border-radius: 9px;
+}
+
+.opponent-target-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.opponent-target-table th,
+.opponent-target-table td {
+    padding: 10px 7px;
+    border-bottom: 1px solid #e8e7e2;
+    overflow-wrap: anywhere;
+}
+
+.opponent-target-table thead th {
+    color: #59616c;
+    background: #f4f4f1;
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.opponent-target-table thead th:first-child {
+    width: 19%;
+}
+
+.opponent-target-table tbody th {
+    color: #26322d;
+    background: #fafaf8;
+}
+
+.opponent-target-table tbody tr:last-child > * {
+    border-bottom: 0;
+}
+
+.opponent-detail-note {
+    margin: 12px 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .opponent-record-toggle-icon {
+        transition: none;
+    }
 }
 
 .text-link {
@@ -1683,9 +1842,9 @@ button:disabled,
         width: 19%;
     }
 
-    .opponent-record-card {
+    .opponent-record-summary {
         align-items: flex-start;
-        flex-direction: column;
+        grid-template-columns: minmax(0, 1fr);
         gap: 14px;
     }
 
@@ -1694,7 +1853,8 @@ button:disabled,
         width: 100%;
     }
 
-    .opponent-record-card p {
+    .opponent-record-identity h3,
+    .opponent-record-identity p {
         text-overflow: clip;
         white-space: normal;
         overflow-wrap: anywhere;
@@ -1705,6 +1865,27 @@ button:disabled,
         width: 100%;
         gap: 12px;
         text-align: left;
+    }
+
+    .opponent-record-toggle {
+        width: 100%;
+    }
+
+    .opponent-record-details {
+        padding: 16px 14px 14px;
+    }
+
+    .opponent-detail-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .opponent-target-table th,
+    .opponent-target-table td {
+        padding: 9px 4px;
+    }
+
+    .opponent-target-table thead th {
+        font-size: 0.64rem;
     }
 
     .history-filters {

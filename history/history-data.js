@@ -92,6 +92,16 @@
     }]));
   }
 
+  function addTargetStats(target, source) {
+    if (!source) return;
+    for (const segment of segments) {
+      target[segment].marks += source[segment]?.marks || 0;
+      target[segment].closingMarks += source[segment]?.closingMarks || 0;
+      target[segment].scoringMarks += source[segment]?.scoringMarks || 0;
+      target[segment].points += source[segment]?.points || 0;
+    }
+  }
+
   function issue(code, message, fatal = false) {
     return { code, message, fatal };
   }
@@ -360,12 +370,35 @@
         wins: 0,
         losses: 0,
         draws: 0,
+        opponentWins: 0,
+        opponentLosses: 0,
+        opponentDraws: 0,
+        opponentFinalPointsTotal: 0,
+        opponentHighestFinalPoints: 0,
+        targetStats: emptyTargetStats(),
         lastPlayedAt: summary.game.started_at,
       };
       existing.games += 1;
-      if (summary.outcome === 'win') existing.wins += 1;
-      else if (summary.outcome === 'loss') existing.losses += 1;
-      else existing.draws += 1;
+      if (summary.outcome === 'win') {
+        existing.wins += 1;
+        existing.opponentLosses += 1;
+      } else if (summary.outcome === 'loss') {
+        existing.losses += 1;
+        existing.opponentWins += 1;
+      } else {
+        existing.draws += 1;
+        existing.opponentDraws += 1;
+      }
+      existing.opponentFinalPointsTotal += summary.opponentResult.final_score;
+      existing.opponentHighestFinalPoints = Math.max(
+        existing.opponentHighestFinalPoints,
+        summary.opponentResult.final_score,
+      );
+      const replay = replayByGame.get(summary.game.id);
+      addTargetStats(
+        existing.targetStats,
+        replay?.targetStatsByPlayer.get(summary.opponent.id),
+      );
       if (new Date(summary.game.started_at) > new Date(existing.lastPlayedAt)) {
         existing.lastPlayedAt = summary.game.started_at;
         if (savedId || accountOpponentId) existing.displayName = summary.opponent.display_name;
@@ -373,23 +406,27 @@
       opponents.set(key, existing);
     }
     const opponentStats = [...opponents.values()]
-      .map((opponent) => ({
-        ...opponent,
-        winRate: opponent.games ? (opponent.wins / opponent.games) * 100 : 0,
-      }))
+      .map((opponent) => {
+        const { opponentFinalPointsTotal, ...publicStats } = opponent;
+        return {
+          ...publicStats,
+          winRate: opponent.games ? (opponent.wins / opponent.games) * 100 : 0,
+          opponentWinRate: opponent.games ? (opponent.opponentWins / opponent.games) * 100 : 0,
+          opponentAverageFinalPoints: opponent.games
+            ? opponentFinalPointsTotal / opponent.games
+            : 0,
+        };
+      })
       .sort((left, right) => right.games - left.games
-        || new Date(right.lastPlayedAt) - new Date(left.lastPlayedAt));
+        || new Date(right.lastPlayedAt) - new Date(left.lastPlayedAt)
+        || left.displayName.localeCompare(right.displayName)
+        || left.key.localeCompare(right.key));
 
     const targetStats = emptyTargetStats();
     for (const summary of completed) {
       const replay = replayByGame.get(summary.game.id);
       const playerStats = replay.targetStatsByPlayer.get(summary.accountPlayer.id);
-      for (const segment of segments) {
-        targetStats[segment].marks += playerStats[segment].marks;
-        targetStats[segment].closingMarks += playerStats[segment].closingMarks;
-        targetStats[segment].scoringMarks += playerStats[segment].scoringMarks;
-        targetStats[segment].points += playerStats[segment].points;
-      }
+      addTargetStats(targetStats, playerStats);
     }
 
     return {

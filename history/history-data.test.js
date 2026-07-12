@@ -200,10 +200,56 @@ function completeDrawGame({ id, opponentType = 'guest', startedAt } = {}) {
   assert.equal(savedOpponent?.games, 2);
   assert.equal(savedOpponent?.wins, 1);
   assert.equal(savedOpponent?.losses, 1);
-  assert.equal(stats.opponentStats.find((opponent) => !opponent.savedPlayerId)?.displayName, 'One-time guests');
+  assert.equal(savedOpponent?.opponentWins, 1);
+  assert.equal(savedOpponent?.opponentLosses, 1);
+  assert.equal(savedOpponent?.opponentDraws, 0);
+  assert.equal(savedOpponent?.opponentWinRate, 50);
+  assert.equal(savedOpponent?.opponentAverageFinalPoints, 10);
+  assert.equal(savedOpponent?.opponentHighestFinalPoints, 20);
+  assert.equal(savedOpponent?.targetStats['20'].marks, 4);
+  assert.equal(savedOpponent?.targetStats['20'].closingMarks, 3);
+  assert.equal(savedOpponent?.targetStats['20'].scoringMarks, 1);
+  assert.equal(savedOpponent?.targetStats['20'].points, 20);
+  assert.equal(savedOpponent?.targetStats['19'].marks, 3);
+  assert.equal(savedOpponent?.targetStats['19'].points, 0);
+  const guestOpponent = stats.opponentStats.find((opponent) => !opponent.savedPlayerId);
+  assert.equal(guestOpponent?.displayName, 'One-time guests');
+  assert.equal(guestOpponent?.opponentWins, 0);
+  assert.equal(guestOpponent?.opponentLosses, 0);
+  assert.equal(guestOpponent?.opponentDraws, 1);
+  assert.equal(guestOpponent?.targetStats['20'].marks, 3);
   assert.equal(stats.targetStats['20'].marks, 7);
   assert.equal(stats.targetStats['20'].points, 20);
   assert.equal(stats.skippedTargetGames, 0);
+}
+
+{
+  const draw = completeDrawGame({ id: 'guest-stats-draw', startedAt: '2026-07-05T12:00:00.000Z' });
+  draw.game.game_players[1].display_name = 'Alice';
+  const win = completeWinGame({
+    id: 'guest-stats-win',
+    winner: 'opponent',
+    opponentType: 'guest',
+    startedAt: '2026-07-06T12:00:00.000Z',
+  });
+  win.game.game_players[1].display_name = 'Bob';
+  const stats = historyData.calculateHistoryStats(
+    [draw.game, win.game],
+    [...draw.events, ...win.events],
+    userId,
+  );
+  assert.equal(stats.opponentStats.length, 1, 'one-time guests must remain a combined group');
+  const guests = stats.opponentStats[0];
+  assert.equal(guests.key, 'one-time-guests');
+  assert.equal(guests.games, 2);
+  assert.equal(guests.opponentWins, 1);
+  assert.equal(guests.opponentLosses, 0);
+  assert.equal(guests.opponentDraws, 1);
+  assert.equal(guests.opponentWinRate, 50);
+  assert.equal(guests.opponentAverageFinalPoints, 10);
+  assert.equal(guests.opponentHighestFinalPoints, 20);
+  assert.equal(guests.targetStats['20'].marks, 7);
+  assert.equal(guests.targetStats['20'].points, 20);
 }
 
 {
@@ -220,6 +266,7 @@ function completeDrawGame({ id, opponentType = 'guest', startedAt } = {}) {
   assert.equal(stats.totals.active, 0, 'future game types must not enter Cricket lifecycle totals');
   assert.equal(stats.totals.abandoned, 0);
   assert.equal(stats.skippedTargetGames, 1);
+  assert.equal(stats.opponentStats.length, 0, 'corrupt games must not enter opponent aggregates');
 }
 
 {
