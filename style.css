@@ -1472,6 +1472,96 @@ button:disabled,
     padding: 4px 24px 26px;
 }
 
+.settings-content {
+    display: grid;
+    min-width: 0;
+    gap: 20px;
+}
+
+.settings-card {
+    min-width: 0;
+}
+
+.settings-card-header {
+    margin-bottom: 22px;
+}
+
+.settings-card-header p:not(.section-label) {
+    margin: 8px 0 0;
+}
+
+.settings-card [data-kind="error"] {
+    color: #a12622;
+}
+
+.settings-card [data-kind="success"] {
+    color: #176b49;
+}
+
+.settings-form {
+    max-width: 540px;
+}
+
+.settings-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.settings-current-value {
+    display: grid;
+    min-width: 0;
+    gap: 4px;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    border: 1px solid #dedbd4;
+    border-radius: 9px;
+    background: #f7f7f4;
+}
+
+.settings-current-value span {
+    color: #6b7280;
+    font-size: 0.78rem;
+    font-weight: 750;
+    text-transform: uppercase;
+}
+
+.settings-current-value strong {
+    min-width: 0;
+    color: #1f2933;
+    overflow-wrap: anywhere;
+}
+
+.settings-danger-card {
+    border-color: #e2b9b5;
+    background: #fffafa;
+}
+
+.settings-danger-card .section-label {
+    color: #9a2d28;
+}
+
+.danger-outline-button {
+    border-color: #c86a63;
+    color: #9a2d28;
+    background: #ffffff;
+}
+
+.danger-outline-button:hover,
+.danger-outline-button:focus-visible {
+    border-color: #9a2d28;
+    color: #78231f;
+    background: #fff3f2;
+}
+
+.delete-account-form {
+    margin-top: 22px;
+}
+
+.delete-account-form .result-actions {
+    margin-top: 20px;
+}
+
 .tracked-cricket-page {
     min-height: 100vh;
     min-height: 100svh;
@@ -1794,9 +1884,20 @@ button:disabled,
 
 @media (max-width: 700px) {
     .history-shell,
-    .game-detail-shell {
+    .game-detail-shell,
+    .settings-shell {
         width: calc(100% - 28px);
         padding-top: 38px;
+    }
+
+    .settings-card {
+        padding: 18px;
+    }
+
+    .settings-form-actions,
+    .settings-form-actions > *,
+    .settings-danger-card > .danger-outline-button {
+        width: 100%;
     }
 
     .history-content {
@@ -2306,8 +2407,16 @@ th#undo-btn-container {
         flex-direction: row;
     }
 
+    .signed-in-account-actions {
+        flex-direction: column;
+    }
+
     .account-card-actions > * {
         flex: 1;
+    }
+
+    .delete-account-dialog .result-dialog-body {
+        padding: 20px;
     }
 
     .section-heading {

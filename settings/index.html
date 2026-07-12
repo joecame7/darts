@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Settings - Darts</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="content-page settings-page">
+  <header class="site-header">
+    <a class="site-brand" href="../">Darts</a>
+    <div class="account-nav">
+      <span class="account-nav-name" id="settings-account-name"></span>
+      <button class="text-button" id="settings-sign-out" type="button" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main class="content-shell settings-shell">
+    <a class="back-link" href="../">&larr; Back to games</a>
+    <p class="section-label">Your account</p>
+    <h1>Account settings</h1>
+    <p class="content-intro">Manage how your account appears, how you sign in, and the data connected to it.</p>
+
+    <p class="page-message" id="settings-message" role="status" aria-live="polite" aria-atomic="true">Loading your account&hellip;</p>
+
+    <section class="empty-state" id="signed-out-settings" hidden>
+      <h2>Sign in to manage your account</h2>
+      <p>Account settings and saved data controls are only available while you are signed in.</p>
+      <a class="primary-button button-link" href="../">Go to sign in</a>
+    </section>
+
+    <section class="empty-state" id="unavailable-settings" hidden>
+      <h2>Account settings are unavailable</h2>
+      <p>The account service could not be loaded. Try refreshing this page.</p>
+      <a class="secondary-button button-link" href="./">Refresh settings</a>
+    </section>
+
+    <div class="settings-content" id="settings-content" hidden>
+      <section class="content-card settings-card" aria-labelledby="display-name-heading">
+        <div class="settings-card-header">
+          <p class="section-label">Profile</p>
+          <h2 id="display-name-heading">Display name</h2>
+          <p>This is the name shown around your account and in future games.</p>
+        </div>
+        <form class="settings-form" id="display-name-form">
+          <div class="form-field">
+            <label for="settings-display-name">Display name</label>
+            <input
+              id="settings-display-name"
+              type="text"
+              maxlength="50"
+              autocomplete="nickname"
+              aria-describedby="display-name-help"
+              required
+            >
+            <p class="field-help" id="display-name-help">Completed games keep the player names recorded when they were played.</p>
+          </div>
+          <p class="auth-message" id="display-name-message" role="status" aria-live="polite" aria-atomic="true"></p>
+          <div class="settings-form-actions">
+            <button class="primary-button" id="display-name-submit" type="submit">Save display name</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="content-card settings-card" aria-labelledby="email-heading">
+        <div class="settings-card-header">
+          <p class="section-label">Sign-in details</p>
+          <h2 id="email-heading">Email address</h2>
+          <p>Change the email address used to sign in and recover your account.</p>
+        </div>
+        <div class="settings-current-value">
+          <span>Current confirmed email</span>
+          <strong id="settings-current-email">Loading&hellip;</strong>
+        </div>
+        <form class="settings-form" id="email-form">
+          <div class="form-field">
+            <label for="settings-new-email">New email address</label>
+            <input
+              id="settings-new-email"
+              type="email"
+              autocomplete="email"
+              spellcheck="false"
+              aria-describedby="email-settings-help"
+              required
+            >
+            <p class="field-help" id="email-settings-help">Your sign-in email changes only after the required confirmation link or links are opened.</p>
+          </div>
+          <p class="auth-message" id="email-message" role="status" aria-live="polite" aria-atomic="true"></p>
+          <div class="settings-form-actions">
+            <button class="primary-button" id="email-submit" type="submit">Send confirmation</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="content-card settings-card" aria-labelledby="password-heading">
+        <div class="settings-card-header">
+          <p class="section-label">Security</p>
+          <h2 id="password-heading">Password</h2>
+          <p>Confirm your current password before replacing it with a new one.</p>
+        </div>
+        <form class="settings-form" id="password-form">
+          <div class="form-field">
+            <label for="settings-current-password">Current password</label>
+            <input id="settings-current-password" type="password" autocomplete="current-password" required>
+          </div>
+          <div class="form-field">
+            <label for="settings-new-password">New password</label>
+            <input
+              id="settings-new-password"
+              type="password"
+              minlength="8"
+              autocomplete="new-password"
+              aria-describedby="password-settings-help"
+              required
+            >
+            <p class="field-help" id="password-settings-help">Use at least 8 characters and a password you do not use anywhere else.</p>
+          </div>
+          <div class="form-field">
+            <label for="settings-confirm-password">Confirm new password</label>
+            <input id="settings-confirm-password" type="password" minlength="8" autocomplete="new-password" required>
+          </div>
+          <p class="auth-message" id="password-message" role="status" aria-live="polite" aria-atomic="true"></p>
+          <div class="settings-form-actions">
+            <button class="primary-button" id="password-submit" type="submit">Update password</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="content-card settings-card settings-danger-card" aria-labelledby="delete-account-heading">
+        <div class="settings-card-header">
+          <p class="section-label">Danger zone</p>
+          <h2 id="delete-account-heading">Delete account and data</h2>
+          <p>Permanently remove your login, profile, saved opponents, games, scorecards, events, results, and statistics.</p>
+        </div>
+        <button class="secondary-button danger-outline-button" id="open-delete-account" type="button">Delete my account</button>
+      </section>
+    </div>
+  </main>
+
+  <dialog
+    class="auth-dialog result-dialog delete-account-dialog"
+    id="delete-account-dialog"
+    aria-labelledby="delete-account-title"
+    aria-describedby="delete-account-description"
+  >
+    <div class="result-dialog-body">
+      <p class="section-label">Permanent deletion</p>
+      <h2 id="delete-account-title">Delete your account?</h2>
+      <p id="delete-account-description">Every saved opponent and tracked game belonging to this account will be permanently deleted. This cannot be undone.</p>
+
+      <form class="delete-account-form" id="delete-account-form">
+        <div class="form-field">
+          <label for="delete-account-password">Current password</label>
+          <input id="delete-account-password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="form-field">
+          <label for="delete-account-confirmation">Type <strong>DELETE</strong> to confirm</label>
+          <input
+            id="delete-account-confirmation"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            aria-describedby="delete-account-confirmation-help"
+            required
+          >
+          <p class="field-help" id="delete-account-confirmation-help">The confirmation is case-sensitive.</p>
+        </div>
+        <p class="auth-message" id="delete-account-message" role="status" aria-live="assertive" aria-atomic="true"></p>
+        <div class="result-actions">
+          <button class="secondary-button" id="cancel-delete-account" type="button" autofocus>Keep account</button>
+          <button class="primary-button danger-button" id="confirm-delete-account" type="submit" disabled>Delete permanently</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.2"></script>
+  <script defer src="../supabase-config.js"></script>
+  <script defer src="../supabase-client.js"></script>
+  <script defer src="settings-validation.js"></script>
+  <script defer src="settings.js"></script>
+</body>
+</html>

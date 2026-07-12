@@ -21,6 +21,15 @@
   const openSignUpButton = document.getElementById('open-sign-up');
   const signOutButton = document.getElementById('sign-out-button');
   const trackedGamesSection = document.getElementById('tracked-games-section');
+  const accountDeletionMarker = 'darts-account-deleted';
+  let accountWasDeleted = false;
+
+  try {
+    accountWasDeleted = window.sessionStorage.getItem(accountDeletionMarker) === '1';
+    if (accountWasDeleted) window.sessionStorage.removeItem(accountDeletionMarker);
+  } catch (_error) {
+    accountWasDeleted = false;
+  }
 
   let mode = 'sign-in';
   let renderVersion = 0;
@@ -28,6 +37,10 @@
   function setMessage(element, message, kind = '') {
     element.textContent = message;
     element.dataset.kind = kind;
+  }
+
+  if (accountWasDeleted) {
+    setMessage(pageMessage, 'Your account and all of its saved data were permanently deleted.', 'success');
   }
 
   function setMode(nextMode) {
@@ -213,7 +226,14 @@
     window.setTimeout(() => renderSession(session), 0);
   });
 
-  service.client.auth.getSession()
+  const initialSessionRequest = accountWasDeleted
+    ? service.client.auth.signOut({ scope: 'local' }).then(
+      () => ({ data: { session: null }, error: null }),
+      () => ({ data: { session: null }, error: null }),
+    )
+    : service.client.auth.getSession();
+
+  initialSessionRequest
     .then(({ data, error }) => {
       if (error) throw error;
       return renderSession(data.session);
